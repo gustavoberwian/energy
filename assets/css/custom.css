@@ -1,0 +1,161 @@
+.sidebar-left {
+    background: #333;
+}
+.sidebar-left .sidebar-header .sidebar-toggle {
+	right: unset;
+	background-color: unset;
+}
+html.no-overflowscrolling .sidebar-left .nano {
+    background: #333;
+}
+@media only screen and (min-width: 768px) {
+    html.fixed .page-header {
+        left: 152px;
+    }
+    html.fixed .content-body {
+        margin-left: 152px;
+    }    
+}
+.page-header {
+    background: #03aeef;
+    border-bottom: none;
+    border-left: 1px solid #03aeef;
+}
+html .card-easymeter .card-header {
+    background: #03aeef;
+    border-color: #03aeef;
+}
+html .card-easymeter .card-actions a, 
+html .card-easymeter .card-title {
+    color: #FFF;
+    font-weight: 500;
+}
+table thead th {
+    font-weight: 600;
+}
+.card-footer .dataTables_paginate {
+    float: right;
+}
+
+.badge-agua {
+    background: #007bff;
+    color: #FFF;
+}
+.badge-gas {
+    background: #ed9c28;
+    color: #FFF;
+}
+.card-actions.buttons {
+    top: 10px;
+}
+.card-actions.buttons .btn-primary {
+    background-color: #0088cc;
+    border-color: #0088cc #0088cc #006699;
+    color: #ffffff;
+}
+.card-body-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: 0;
+}
+.card-previsao .card-body {
+    background-color: #03aeef;
+}
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 375px;
+    width: 100%;
+}
+.chart-container canvas {
+    width: 100% !important;
+    max-height: 100%;
+    min-height: unset;
+}
+.api-table {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-bottom: 24pt;
+}
+.api-table th {
+    line-height: 110%;
+    border-top: none;
+    position: sticky;
+    top: 62px;
+    background-color: #FFFFFF;
+    font-weight: 600;
+    box-shadow: 0 1px #48484a;
+    vertical-align: bottom;
+}
+.api-table td {
+    vertical-align: top;
+    font-weight: 300;
+    border-top: 1px solid #F2F2F2;
+}
+
+.api-table th, .api-table td {
+    padding: 8pt 4pt;
+    text-align: left;
+}
+.api-table code {
+    font-family: monospace;
+    padding: 2pt 4pt;
+    border: 1px solid #D0D0D6;
+    border-radius: 2pt;
+    color: #48484A;
+    white-space: unset;
+    background-color: #FFFFFF;
+    font-size: 100%;
+}
+.api-table .sub {
+    margin-left: 4pt;
+    color: #8a8a8a;
+    font-family: monospace;
+    font-weight: normal;
+}
+.documentation .response {
+    border-radius: 4pt;
+    /* border: 1px solid #D0D0D6; */
+    /* margin-top: 16pt; */
+    margin-bottom: 16pt;
+    font-family: monospace;
+    width: 100%;
+    word-wrap: break-word;
+}
+.documentation .response .api {
+    background-color: #F2F2F2;
+    margin: 0;
+    border: none;
+}
+.documentation .api code {
+    border: none;
+    padding: 0;
+}
+.api .tools {
+    flex-basis: 15%;
+    align-items: center;
+    max-width: 65px;
+    display: flex;
+    justify-content: flex-end;
+}
+.documentation .response .content {
+    display: block;
+    position: relative;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0 8pt;
+    width: 100%;
+    border-radius: 0 0 4pt 4pt;
+    border: 1px solid #F2F2F2;
+}
+.api-table code.answer{
+    border: 0;
+}
+.tab-content{
+    padding: 0;
+    background-color: unset;
+}
