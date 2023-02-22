@@ -17,14 +17,24 @@ class Api extends Api_Controller {
         $this->render('doc');
     }
 
-    public function get($version, $param)
+    public function energy($version, $cmd)
+    {
+        $this->get($version, 'energy');
+    }
+
+    public function water($version, $cmd)
+    {
+        $this->get($version, 'water');
+    }
+
+    private function get($version, $param)
     {
         if ($version != 1) {
             echo json_encode(array("status" => "error", "message" => "Invalid API version"));
             return;
         }
 
-        $auth = $this->input->get('appid');
+        $auth = $this->input->get('key');
         if (is_null($auth)) {
             echo json_encode(array("status" => "error", "message" => "Invalid API key"));
             return;
@@ -45,11 +55,25 @@ class Api extends Api_Controller {
 
             if ($cmd == "list") {
 
-                echo json_encode(array("status" => "success", "data" => $this->api_model->api_device_list($client->energia_id)));
+                $type = $this->input->get('t');
+
+                if (!is_null($type) && (intval($type) != 1 && intval($type) != 2)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid t parameter"));
+                    return;
+                }
+
+                echo json_encode(array("status" => "success", "data" => $this->api_model->api_device_list($client->energia_id, $type)));
 
             } else if ($cmd == "resume") {
 
-                echo json_encode(array("status" => "success", "data" => $this->api_model->api_get_resume($cfg)));
+                $type = $this->input->get('t');
+
+                if (!is_null($type) && (intval($type) != 1 && intval($type) != 2)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid t parameter"));
+                    return;
+                }
+
+                echo json_encode(array("status" => "success", "data" => $this->api_model->api_get_resume($cfg, $type)));
 
             } else if (in_array($cmd, array("consumption", "active_demand", "reactive", "load", "instant_active", "instant_current",
                 "instant_voltage", "instant_power", "instant_load", "instant_reactive", "instant_factor",
@@ -79,6 +103,86 @@ class Api extends Api_Controller {
 
                 echo json_encode($this->chart_engineering($cmd, $device, $start, $end, $cfg));
 
+            } else if ($cmd == "accountings") {
+
+                $pag = $this->input->get('p');
+
+                if (is_null($pag)) {
+                    $pag = 0;
+                }
+
+                if (!is_numeric($pag)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid p parameter"));
+                    return;
+                }
+
+                echo json_encode(array("status" => "success", "data" => $this->api_model->api_get_lancamentos('energia', $client->group_id, $pag * 10)));
+
+            } else if ($cmd == "accounting") {
+
+                $fid = $this->input->get('i');
+
+                if (is_null($fid)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid i parameter"));
+                    return;
+                }
+
+                $data    = $this->api_model->api_get_lancamento_details('energia', $fid);
+                $message = $this->api_model->api_get_lancamento_message('energia', $fid);
+
+                if ($data)
+                    echo json_encode(array("status" => "success", "data" => $data, "message" => $message->mensagem));
+                else
+                    echo json_encode(array("status" => "error", "message" => "Invalid accounting"));
+
+
+            } else if ($cmd == "add_accounting") {
+
+                $competencia = $this->input->get('c');
+                $start       = $this->input->get('s');
+                $end         = $this->input->get('e');
+                $message     = $this->input->get('m');
+
+                if (is_null($competencia)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid c parameter"));
+                    return;
+                } else {
+                    $c = explode('-', $competencia);
+
+                    if (is_numeric($c[0]) && is_numeric($c[1]) && intval($c[0]) > 0 && intval($c[0]) < 13) {
+                        $competencia =  intval($c[0])."/".$c[1];
+                    } else {
+                        echo json_encode(array("status" => "error", "message" => "Invalid c parameter $competencia"));
+                        return;
+                    }
+                }
+                if (is_null($start) || !checkDateFormat($start)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid s parameter"));
+                    return;
+                }
+                if (is_null($end) || !checkDateFormat($end)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid e parameter"));
+                    return;
+                }
+
+                if ($this->api_model->VerifyCompetencia('energia', $client->energia_id, $competencia)) {
+                    echo json_encode(array("status" => "error", "message" => "Competence already have a accounting"));
+                    return;
+                }
+
+                // validade dates
+
+                $data = array(
+                    "group_id"    => $client->group_id,
+                    "entrada_id"  => $client->energia_id,
+                    "competencia" => $competencia,
+                    "inicio"      => $start,
+                    "fim"         => $end,
+                    "mensagem"    => $message,
+                );
+
+                echo $this->api_model->calculate_energy($data, $cfg);
+
             } else {
 
                 echo json_encode(array("status" => "error", "message" => "Invalid q parameter"));
@@ -92,11 +196,25 @@ class Api extends Api_Controller {
 
             if ($cmd == "list") {
 
-                echo json_encode(array("status" => "success", "data" => $this->api_model->api_device_list($client->agua_id)));
+                $type = $this->input->get('t');
+
+                if (!is_null($type) && (intval($type) != 1 && intval($type) != 2)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid t parameter"));
+                    return;
+                }
+
+                echo json_encode(array("status" => "success", "data" => $this->api_model->api_device_list($client->agua_id, $type)));
 
             } else if ($cmd == "resume") {
 
-                echo json_encode(array("status" => "success", "data" => $this->api_model->water_resume($cfg), "unity" => "L"));
+                $type = $this->input->get('t');
+
+                if (!is_null($type) && (intval($type) != 1 && intval($type) != 2)) {
+                    echo json_encode(array("status" => "error", "message" => "Invalid t parameter"));
+                    return;
+                }
+
+                echo json_encode(array("status" => "success", "data" => $this->api_model->water_resume($cfg, $type), "unity" => "L"));
 
             } else if ($cmd == "consumption") {
 
@@ -129,11 +247,15 @@ class Api extends Api_Controller {
                 $pag = $this->input->get('p');
 
                 if (is_null($pag)) {
+                    $pag = 0;
+                }
+
+                if (!is_numeric($pag)) {
                     echo json_encode(array("status" => "error", "message" => "Invalid p parameter"));
                     return;
                 }
 
-                echo json_encode(array("status" => "success", "data" => $this->api_model->api_get_lancamentos($client->group_id, $pag * 10), "unity" => "L"));
+                echo json_encode(array("status" => "success", "data" => $this->api_model->api_get_lancamentos('agua', $client->group_id, $pag * 10)));
 
             } else if ($cmd == "accounting") {
 
@@ -144,11 +266,11 @@ class Api extends Api_Controller {
                     return;
                 }
 
-                $data    = $this->api_model->api_get_lancamento_details($fid);
-                $message = $this->api_model->api_get_lancamento_message($fid);
+                $data    = $this->api_model->api_get_lancamento_details('agua', $fid);
+                $message = $this->api_model->api_get_lancamento_message('agua', $fid);
 
                 if ($data)
-                    echo json_encode(array("status" => "success", "data" => $data, "message" => $message->mensagem, "unity" => "L"));
+                    echo json_encode(array("status" => "success", "data" => $data, "message" => $message->mensagem));
                 else
                     echo json_encode(array("status" => "error", "message" => "Invalid accounting"));
 
@@ -181,7 +303,7 @@ class Api extends Api_Controller {
                     return;
                 }
 
-                if ($this->api_model->VerifyCompetencia($client->agua_id, $competencia)) {
+                if ($this->api_model->VerifyCompetencia('agua', $client->agua_id, $competencia)) {
                     echo json_encode(array("status" => "error", "message" => "Competence already have a accounting"));
                     return;
                 }
@@ -453,19 +575,19 @@ class Api extends Api_Controller {
 
         if ($field == "consumption") {
             $data = $this->chartMainActivePositive($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "kWh");
+            return array("status" => "success", "data" => $data);
         } else if ($field == "mainStation") {
             $data = $this->chartMainStation($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "kWh");
+            return array("status" => "success", "data" => $data);
         } else if ($field == "active_demand") {
             $data = $this->chartMainActiveDemand($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "kW");
+            return array("status" => "success", "data" => $data);
         } else if ($field == "reactive") {
             $data = $this->chartMainReactive($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "kVArh");
+            return array("status" => "success", "data" => $data);
         } else if ($field == "load") {
             $data = $this->chartMainLoad($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "");
+            return array("status" => "success", "data" => $data);
 
 
             /*        else if ($field == "mainFactor") {
@@ -499,7 +621,7 @@ class Api extends Api_Controller {
             $decimals = 0;
         } else if ($field == "instant_factor") {
             $data = $this->chartFactorPhases($device, $start, $end, $cfg);
-            return array("status" => "success", "data" => $data, "unity" => "");
+            return array("status" => "success", "data" => $data);
         }
 
         $value_a = array();
@@ -533,7 +655,7 @@ class Api extends Api_Controller {
             ),
         );
 
-        return array("status" => "success", "data" => $series, "unity" => $unidade);
+        return array("status" => "success", "data" => $series);
     }
 
     public function water_data($device, $start, $end)
@@ -544,7 +666,7 @@ class Api extends Api_Controller {
 
         if ($period) {
             foreach ($period as $v) {
-                $values[] = array($v->label, round($v->value, 0));
+                $values[] = array($v->label, round($v->value, 3));
                 $labels[] = $v->label;
             }
 
@@ -554,6 +676,6 @@ class Api extends Api_Controller {
             );
         }
 
-        return array("status" => "success", "name" => "Consumo", "data" => $values, "unity" => "L");
+        return array("status" => "success", "name" => "Consumo", "data" => $values);
     }
 }
