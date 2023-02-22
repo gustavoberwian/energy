@@ -1,12 +1,14 @@
 .pill-energy.active {
     background-color: #ED9C29 !important;
+    color: #fff !important;
+}
+.pill-energy {
+    color: #ED9C29 !important;
 }
 .pill-water.active {
     background-color: #0088CC !important;
-}
-.nav-link {
-    color: #0088CC !important;
-}
-.nav-link.active {
     color: #fff !important;
+}
+.pill-water {
+    color: #0088CC !important;
 }

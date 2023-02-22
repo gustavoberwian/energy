@@ -1037,7 +1037,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <section class="card card-easymeter mt-0 mb-4 col-6">
                     <div class="card-body documentation">
                         <blockquote class="mt-3">
-                            <p class="m-0 text-3"><b>http://www.easymeter.io/api/get/1.0/energy?q=<span class="text-primary">resume</span>&appid=<span class="text-warning">{API key}</span></b></p>
+                            <p class="m-0 text-3"><b>http://www.easymeter.io/api/get/1.0/water?q=<span class="text-primary">resume</span>&appid=<span class="text-warning">{API key}</span></b></p>
                         </blockquote>
                         <table class="api-table">
                             <tbody>
@@ -1090,6 +1090,252 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                     </div>
                 </section>
+
+                <section class="card card-easymeter mt-0 mb-4 col-6">
+                    <div class="card-body documentation">
+                        <blockquote class="mt-3">
+                            <p class="m-0 text-3"><b>http://easymeter/api/get/1.0/water?q=<span class="text-primary">consumption</span>&d=<span class="text-warning">device</span>&s=<span class="text-warning">data inicio</span>&e=<span class="text-warning">data fim</span>&appid=<span class="text-warning">{API key}</span></b></p>
+                        </blockquote>
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Parâmetros</th>
+                            </tr>
+                            <tr>
+                                <td><code>d</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Código identificador do medidor</td>
+                            </tr>
+                            <tr>
+                                <td><code>s</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Data inicial do período desejado no formato YYYY-MM-DD</td>
+                            </tr>
+                            <tr>
+                                <td><code>e</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Data final do período desejado no formato YYYY-MM-DD</td>
+                            </tr>
+                            <tr>
+                                <td><code>appid</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Sua API key única (ela encontra-se no seu painel, no item configurações)</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code></td>
+                                <td><span class="sub">fixo</span></td>
+                                <td>Obtém o consumo de água</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Se a data inicial e final forem iguais, os resultados serão retornados por hora.</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Resposta</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <pre class="mb-0"><code class="answer">{
+    "status": "success",
+    "name": "Consumo",
+    "data": [
+        ["2023-02-01",700],  <span class="text-success">// Data/Hora e Consumo no dia/hora</span>
+        ["2023-02-02",0.957],
+    ],
+    "unity": "L"                     <span class="text-success">// Unidade de medida dos valores</span>
+}</code></pre>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card card-easymeter mt-0 mb-4 col-6">
+                    <div class="card-body documentation">
+                        <blockquote class="mt-3">
+                            <p class="m-0 text-3"><b>http://easymeter/api/get/1.0/water?q=<span class="text-primary">accountings</span>&p=<span class="text-warning">pag</span>&appid=<span class="text-warning">{API key}</span></b></p>
+                        </blockquote>
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Parâmetros</th>
+                            </tr>
+                            <tr>
+                                <td><code>p</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Offset</td>
+                            </tr>
+                            <tr>
+                                <td><code>appid</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Sua API key única (ela encontra-se no seu painel, no item configurações)</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code></td>
+                                <td><span class="sub">fixo</span></td>
+                                <td>Obtém a lista de lançamentos</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Resposta</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <pre class="mb-0"><code class="answer">{
+    "status": "success",
+    "data": [
+        {
+            "id": "23",
+            "competence": "12/2023",    <span class="text-success">// 2: Mês de competência</span>
+            "start": "2023-01-31",
+            "end": "2023-02-15",
+            "consumption": "30810",         <span class="text-success">// Consumo no mês - L</span>
+            "consumption_opened": "20042",  <span class="text-success">// Consumo com o shopping aberto - L</span>
+            "consumption_closed": "10868",  <span class="text-success">// Consumo com o shopping fechado - L</span>
+            "date": "2023-02-17",         <span class="text-success">// Data de emissão</span>
+        }
+        ...
+    ],
+    "unity": "L"                     <span class="text-success">// Unidade de medida dos valores</span>
+}</code></pre>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card card-easymeter mt-0 mb-4 col-6">
+                    <div class="card-body documentation">
+                        <blockquote class="mt-3">
+                            <p class="m-0 text-3"><b>http://easymeter/api/get/1.0/water?q=<span class="text-primary">accounting</span>&i=<span class="text-warning">id</span>&appid=<span class="text-warning">{API key}</span></b></p>
+                        </blockquote>
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Parâmetros</th>
+                            </tr>
+                            <tr>
+                                <td><code>i</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Id do lançamento</td>
+                            </tr>
+                            <tr>
+                                <td><code>appid</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Sua API key única (ela encontra-se no seu painel, no item configurações)</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code></td>
+                                <td><span class="sub">fixo</span></td>
+                                <td>Obtém a lista de lançamentos</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Resposta</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <pre class="mb-0"><code class="answer">{
+    "status": "success",
+    "data": [
+        {
+            "device": "03D255F4",
+            "name": "Pia dos Lojistas",
+            "previous_read": "012266",     <span class="text-success">// Leitura anterior</span>
+            "current_read": "018783",      <span class="text-success">// Leitura atual</span>
+            "consumption": "6517",         <span class="text-success">// Consumo no mês - L</span>
+            "consumption_opened": "3477",  <span class="text-success">// Consumo com o shopping aberto - L</span>
+            "consumption_closed": "3040",  <span class="text-success">// Consumo com o shopping fechado - L</span>
+        }
+        ...
+    ],
+    "unity": "L"                     <span class="text-success">// Unidade de medida dos valores</span>
+}</code></pre>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card card-easymeter mt-0 mb-4 col-6">
+                    <div class="card-body documentation">
+                        <blockquote class="mt-3">
+                            <p class="m-0 text-3"><b>http://easymeter/api/get/1.0/water?q=<span class="text-primary">add_accounting</span>&c=<span class="text-warning">competência</span>&s=<span class="text-warning">data início</span>&c=<span class="text-warning">data fim</span>&m=<span class="text-warning">mensagem</span>&appid=<span class="text-warning">{API key}</span></b></p>
+                        </blockquote>
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Parâmetros</th>
+                            </tr>
+                            <tr>
+                                <td><code>c</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Competência do lançamento</td>
+                            </tr>
+                            <tr>
+                                <td><code>s</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Data de início da competência</td>
+                            </tr>
+                            <tr>
+                                <td><code>e</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Data final da competência</td>
+                            </tr>
+                            <tr>
+                                <td><code>m</code></td>
+                                <td><span class="sub">opcional</span></td>
+                                <td>Mensagem a ser inserida no lançamento</td>
+                            </tr>
+                            <tr>
+                                <td><code>appid</code></td>
+                                <td><span class="sub">obrigatório</span></td>
+                                <td>Sua API key única (ela encontra-se no seu painel, no item configurações)</td>
+                            </tr>
+                            <tr>
+                                <td><code>q</code></td>
+                                <td><span class="sub">fixo</span></td>
+                                <td>Obtém a lista de lançamentos</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table class="api-table">
+                            <tbody>
+                            <tr>
+                                <th colspan="3">Resposta</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <pre class="mb-0"><code class="answer">{
+    "status": "success",
+    "accounting": 24,        <span class="text-success">// Id do lançamento inserido</span>
+}</code></pre>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
             </div>
         </div>
     </div>
