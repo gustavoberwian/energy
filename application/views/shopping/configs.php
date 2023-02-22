@@ -105,7 +105,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </li>
             </ul>
 
-            <div class="tab-content">
+            <div class="tab-content configs">
                 <div id="energia" class="tab-pane active">
                     <div class="row pt-0">
                         <div class="col-md-12 mb-4">
@@ -349,11 +349,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="token" class="form-label">Token</label>
+                                    <label for="token" class="form-label">Chave</label>
                                     <div class="row">
                                         <div class="col-md-8 input-group">
                                             <input onClick="this.select();"  id="token" value="<?= $token ?>" name="token" type="text" class="form-control" placeholder="" aria-describedby="button-addon2">
-                                            <button class="btn btn-primary btn-generate-token" type="button-addon2">Gerar Token</button>
+                                            <button class="btn btn-primary btn-generate-token <?= $token ? 'renew' : '' ?>" type="button-addon2"><?= $token ? 'Renovar Chave' : 'Gerar Chave' ?></button>
                                         </div>
                                         <a href="/shopping/api/<?= $group_id ?>" class="text-right" target="_blank">Documentação <i class="fas fa-arrow-up-right-from-square"></i></a>
                                     </div>
@@ -413,4 +413,12 @@ $data_unidade['modal_title'] = 'Você tem certeza?';
 $data_unidade['modal_message'] = 'Deseja realmente excluir este agrupamento?';
 $data_unidade['button'] = array('Excluir', 'Cancelar');
 $this->load->view('modals/confirm', $data_unidade);
+?>
+
+<?php
+$dataKey['modal_id'] = 'modalGenerateKey';
+$dataKey['modal_title'] = 'Você tem certeza?';
+$dataKey['modal_message'] = 'Ao renovar, sua chave atual será invalidada, continuar?';
+$dataKey['button'] = array('Renovar', 'Cancelar');
+$this->load->view('modals/confirm_key', $dataKey);
 ?>

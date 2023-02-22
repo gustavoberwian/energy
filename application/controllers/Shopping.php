@@ -1333,7 +1333,7 @@ class Shopping extends Shopping_Controller
         $token = md5(strtotime(date("Y-m-d H:i:s")) . $group_id);
 
         if ($this->shopping_model->insertToken($token, $group_id)) {
-            echo json_encode(array('status' => 'success', 'message' => 'Agrupamento criado com sucesso', 'token' => $token));
+            echo json_encode(array('status' => 'success', 'message' => 'Operação finalizada com sucesso', 'token' => $token));
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Falha na operação, tente novamente em instantes'));
         }

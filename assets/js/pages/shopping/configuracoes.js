@@ -787,30 +787,75 @@
             });
     });
 
-    $(document).on('click', '.btn-generate-token', function (e) {
-        e.preventDefault();
+    if ($('.btn-generate-token').hasClass('renew')) {
 
-        $.ajax({
-            method: 'POST',
-            data: { group_id: $(".form-config-api").data("grupo") },
-            dataType: 'json',
-            url: '/shopping/generateToken',
-            success: function (json) {
-                if (json.status == "success") {
-                    // notifica êxito
+        $(document).on('click', '.btn-generate-token', function (e) {
+            e.preventDefault();
+
+            $.magnificPopup.open({
+                items: {src: '#modalGenerateKey'}, type: 'inline',
+            });
+        });
+
+        $(document).on('click', '#modalGenerateKey .modal-confirm-key', function () {
+            var $btn = $(this);
+
+            $btn.trigger('loading-overlay:show');
+            $btn.prop('disabled', true);
+
+            $.post("/shopping/generateToken", { group_id: $(".form-config-api").data("grupo") }, function (json) {
+                if (json.status == 'success') {
+                    // fecha modal
+                    $.magnificPopup.close();
+                    // mostra notificação
                     notifySuccess(json.message);
-                    $("#token").val(json.token);
                 } else {
-                    // notifica erro
+                    // fecha modal
+                    $.magnificPopup.close();
+                    // mostra erro
                     notifyError(json.message);
                 }
-            },
-            error: function (xhr, status, error) {
-            },
-            complete: function () {
-            }
-        })
-    });
+            }, 'json')
+                .fail(function (xhr, status, error) {
+                    // fecha modal
+                    $.magnificPopup.close();
+                    // mostra erro
+                    notifyError(error, 'Ajax Error');
+                })
+                .always(function () {
+                    $btn.trigger('loading-overlay:hide');
+                    $btn.prop('disabled', false);
+                    // limpa id
+                    $('#modalGenerateKey .id').val('').data('uid', null);
+                });
+        });
+
+    } else {
+        $(document).on('click', '.btn-generate-token', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                method: 'POST',
+                data: {group_id: $(".form-config-api").data("grupo")},
+                dataType: 'json',
+                url: '/shopping/generateToken',
+                success: function (json) {
+                    if (json.status == "success") {
+                        // notifica êxito
+                        notifySuccess(json.message);
+                        $("#token").val(json.token);
+                    } else {
+                        // notifica erro
+                        notifyError(json.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                },
+                complete: function () {
+                }
+            })
+        });
+    }
 
     $('#token').keypress(function(event) {
         event.preventDefault();
