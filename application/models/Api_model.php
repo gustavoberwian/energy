@@ -1989,7 +1989,7 @@ class Api_model extends CI_Model {
             $result = $this->db->query("
                 SELECT 
                     esm_calendar.dt AS label,
-                    IFNULL(AVG(activePositiveConsumption + ABS(activePositiveConsumption)) / MAX(activePositiveConsumption + ABS(activePositiveConsumption)), 1) AS value
+                    ROUND(IFNULL(AVG(activePositiveConsumption + ABS(activePositiveConsumption)) / MAX(activePositiveConsumption + ABS(activePositiveConsumption)), 1), 3) AS value
                 FROM esm_calendar
                 LEFT JOIN esm_leituras_ancar_energia d ON 
                     d.timestamp > (esm_calendar.ts_start) AND 
@@ -2429,25 +2429,53 @@ class Api_model extends CI_Model {
         return ($result->num_rows() > 0);
     }
 
-    public function api_get_lancamentos($gid, $pag)
+    public function api_get_lancamentos($type, $gid, $pag)
     {
-        $result = $this->db->query("
-            SELECT
-                esm_fechamentos_agua.id,
-                competencia AS competence,
-                FROM_UNIXTIME(inicio, '%Y-%m-%d') AS start,
-                FROM_UNIXTIME(fim, '%Y-%m-%d') AS end,
-                ROUND(consumo_c + consumo_u) AS consumption,
-                ROUND(consumo_c_o + consumo_u_o) AS consumption_opened,
-                ROUND(consumo_c_c + consumo_u_c) AS consumption_closed,
-                DATE_FORMAT(cadastro, '%Y-%m-%d') AS date
-            FROM
-                esm_fechamentos_agua
-            JOIN 
-                esm_blocos ON esm_blocos.id = esm_fechamentos_agua.group_id AND esm_blocos.id = $gid
-            ORDER BY cadastro DESC
-            LIMIT 10 OFFSET $pag
-        ");
+        if ($type == 'agua') {
+
+            $result = $this->db->query("
+                SELECT
+                    esm_fechamentos_agua.id,
+                    competencia AS competence,
+                    FROM_UNIXTIME(inicio, '%Y-%m-%d') AS start,
+                    FROM_UNIXTIME(fim, '%Y-%m-%d') AS end,
+                    ROUND(consumo_c + consumo_u) AS consumption,
+                    ROUND(consumo_c_o + consumo_u_o) AS consumption_opened,
+                    ROUND(consumo_c_c + consumo_u_c) AS consumption_closed,
+                    DATE_FORMAT(cadastro, '%Y-%m-%d') AS date
+                FROM
+                    esm_fechamentos_agua
+                JOIN 
+                    esm_blocos ON esm_blocos.id = esm_fechamentos_agua.group_id AND esm_blocos.id = $gid
+                ORDER BY cadastro DESC
+                LIMIT 10 OFFSET $pag
+            ");
+
+        } else if ($type == 'energia') {
+
+            $result = $this->db->query("
+                SELECT
+                    esm_fechamentos_energia.id,
+                    competencia AS competence,
+                    FROM_UNIXTIME(inicio, '%Y-%m-%d') AS start,
+                    FROM_UNIXTIME(fim, '%Y-%m-%d') AS end,
+                    consumo AS common_consumption,
+                    consumo_p AS common_ponta,
+                    consumo_f AS common_fora,
+                    demanda AS common_demand,
+                    consumo_u AS units_consumption,
+                    consumo_u_p  AS units_ponta,
+                    consumo_u_f  AS units_fora,
+                    demanda_u AS units_demand,
+                    DATE_FORMAT(cadastro, '%Y-%m-%d') AS date
+                FROM
+                    esm_fechamentos_energia
+                JOIN 
+                    esm_blocos ON esm_blocos.id = esm_fechamentos_energia.group_id AND esm_blocos.id = $gid
+                ORDER BY cadastro DESC
+                LIMIT 10 OFFSET $pag
+            ");
+        }
 
         if ($result->num_rows()) {
             return $result->result();
@@ -2456,26 +2484,63 @@ class Api_model extends CI_Model {
         return array();
     }
 
-    public function api_get_lancamento_details($fid)
+    public function api_get_lancamento_details($type, $fid, $t = null)
     {
-        $result = $this->db->query("
-            SELECT 
-                esm_medidores.nome AS device,
-                esm_unidades.nome AS name,
-                LPAD(ROUND(leitura_anterior), 6, '0') AS previous_read,
-                LPAD(ROUND(leitura_atual), 6, '0') AS current_read,
-                ROUND(consumo) AS consumption,
-                ROUND(consumo_o) AS consumption_opened,
-                ROUND(consumo_c) AS consumption_closed
-            FROM 
-                esm_fechamentos_agua_entradas
-            JOIN 
-                esm_medidores ON esm_medidores.nome = esm_fechamentos_agua_entradas.device
-            JOIN 
-                esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
-            WHERE 
-                esm_fechamentos_agua_entradas.fechamento_id = $fid
-        ");
+        if ($type == 'agua') {
+
+            $where = "";
+            if (!is_null($t))
+                $where = "AND esm_fechamentos_energia_entradas.type = $t";
+
+            $result = $this->db->query("
+                SELECT 
+                    esm_medidores.nome AS device,
+                    esm_unidades.nome AS name,
+                    LPAD(ROUND(leitura_anterior), 6, '0') AS previous_read,
+                    LPAD(ROUND(leitura_atual), 6, '0') AS current_read,
+                    ROUND(consumo) AS consumption,
+                    ROUND(consumo_o) AS consumption_opened,
+                    ROUND(consumo_c) AS consumption_closed
+                FROM 
+                    esm_fechamentos_agua_entradas
+                JOIN 
+                    esm_medidores ON esm_medidores.nome = esm_fechamentos_agua_entradas.device
+                JOIN 
+                    esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+                WHERE 
+                    esm_fechamentos_agua_entradas.fechamento_id = $fid
+                    $where
+            ");
+
+        } else if ($type == 'energia') {
+
+            $where = "";
+            if (!is_null($t))
+                $where = "AND esm_fechamentos_energia_entradas.type = $t";
+
+            $result = $this->db->query("
+                SELECT 
+                    esm_medidores.nome AS device,
+                    esm_unidades.nome AS name,
+                    LPAD(ROUND(leitura_anterior), 6, '0') AS previous_read,
+                    LPAD(ROUND(leitura_atual), 6, '0') AS current_read,
+                    consumo AS consumption,
+                    consumo_p AS consumption_ponta,
+                    consumo_f AS consumption_fora,
+                    demanda AS demand,
+                    demanda_p AS demand_ponta,
+                    demanda_f AS demanda_fora
+                FROM 
+                    esm_fechamentos_energia_entradas
+                JOIN 
+                    esm_medidores ON esm_medidores.nome = esm_fechamentos_energia_entradas.device
+                JOIN 
+                    esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+                WHERE 
+                    esm_fechamentos_energia_entradas.fechamento_id = $fid
+                    $where
+            ");
+        }
 
         if ($result->num_rows()) {
             return $result->result();
@@ -2484,16 +2549,30 @@ class Api_model extends CI_Model {
         return false;
     }
 
-    public function api_get_lancamento_message($fid)
+    public function api_get_lancamento_message($type, $fid)
     {
-        $result = $this->db->query("
-            SELECT 
-                mensagem
-            FROM 
-                esm_fechamentos_agua
-            WHERE 
-                id = $fid
-        ");
+        if ($type == 'agua') {
+
+            $result = $this->db->query("
+                SELECT 
+                    mensagem
+                FROM 
+                    esm_fechamentos_agua
+                WHERE 
+                    id = $fid
+            ");
+
+        } else if ($type == 'energia') {
+
+            $result = $this->db->query("
+                SELECT 
+                    mensagem
+                FROM 
+                    esm_fechamentos_energia
+                WHERE 
+                    id = $fid
+            ");
+        }
 
         if ($result->num_rows()) {
             return $result->row();
