@@ -18,18 +18,11 @@
         <script src="<?php echo base_url('vendor/moment/locale/pt-br.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/daterangepicker/daterangepicker.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/apexcharts/dist/apexcharts.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/datatables/datatables.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/datatables/examples.datatables.editable.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/ios7-switch/ios7-switch.js'); ?>"></script>
-		<script src="<?php echo base_url('vendor/bootstrapv5-multiselect/js/bootstrap-multiselect.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/jquery-mask-plugin/jquery.mask.min.js'); ?>"></script>
 
         <script src="<?php echo base_url('vendor/select2/js/select2.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/select2/js/i18n/pt-BR.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/pnotify/pnotify.custom.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/jquery-validation/jquery.validation.min.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/jquery-validation/jquery.validation.pt-br.js'); ?>"></script>
-        <script src="<?php echo base_url('vendor/owl_carousel/own.carousel.js'); ?>"></script>
 
 		<!-- Specific Page Vendor -->
 		<!--<script src="vendor/jquery-ui/jquery-ui.js"></script>-->
