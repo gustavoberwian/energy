@@ -170,3 +170,15 @@ function checkDateFormat($date){
 
     return checkdate($d[1] ?? 0, $d[2] ?? 0, $d[0] ?? 0);
 }
+
+function format_online_status($ts, $central = "")
+{
+    if ($ts == 0)
+        return 'text-muted';
+    elseif ($ts > time() - 3600)
+        return 'text-success';
+    elseif ($ts > time() - 3600 * 2)
+        return 'text-warning';
+    else
+        return 'text-danger';
+}
