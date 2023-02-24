@@ -26,25 +26,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row h-100 align-content-between">
         <div class="col-md-9 d-flex h-100 flex-column justify-content-between">
             <div class="row pb-0">
-                <?php foreach ($unidades as $unidade) : ?>
-                    <section class="card card-easymeter mt-0 pb-4 card-unidade col-md-2" data-unidade="<?= $unidade->unidade_id ?>">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0"><?= $unidade->unidade_nome ?></h5>
-                                <div class="h6 font-weight-bold mb-0 mt-0 status"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md">
-                                    <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 last-unidade"></h5>
-                                    <h6 class="font-weight-normal text-dark mb-0 mt-0">Último envio</h6>
+                <?php foreach ($unidades as $i => $unidade) : ?>
+                <div class="flip" style="width: 20%">
+                    <div class="front">
+                        <section class="card card-easymeter mt-0 pb-4 card-unidade" data-unidade="<?= $unidade->unidade_id ?>">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0"><?= $unidade->unidade_nome ?></h5>
+                                    <div class="h6 font-weight-bold mb-0 mt-0 status"></div>
                                 </div>
-                                <div class="col-md">
-                                    <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 total-unidade"></h5>
-                                    <h6 class="font-weight-normal text-dark mb-0 mt-0">Total Desde às 0h</h6>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 last-unidade"></h5>
+                                        <h6 class="font-weight-normal text-dark mb-0 mt-0">Último envio</h6>
+                                    </div>
+                                    <div class="col-md">
+                                        <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 total-unidade"></h5>
+                                        <h6 class="font-weight-normal text-dark mb-0 mt-0">Total Desde às 0h</h6>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </div>
+                    <div class="back">
+                        <section class="card card-easymeter mt-0 pb-4 card-unidade" data-unidade="<?= $unidades[$i+2]->unidade_id ?? $unidades[$i+2-count($unidades)]->unidade_id ?>">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0"><?= $unidades[$i+2]->unidade_nome ?? $unidades[$i+2-count($unidades)]->unidade_nome ?></h5>
+                                    <div class="h6 font-weight-bold mb-0 mt-0 status"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 last-unidade"></h5>
+                                        <h6 class="font-weight-normal text-dark mb-0 mt-0">Último envio</h6>
+                                    </div>
+                                    <div class="col-md">
+                                        <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 total-unidade"></h5>
+                                        <h6 class="font-weight-normal text-dark mb-0 mt-0">Total Desde às 0h</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
                 <?php endforeach; ?>
             </div>
             <section class="card card-easymeter mb-0 mt-0">

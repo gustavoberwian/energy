@@ -81,8 +81,14 @@
     evtSource.addEventListener('chart', chartListener, false);
     evtSource.addEventListener('timestamp', timestampListener, false);
 
-    /*setInterval(function () {
-        $('.demo').splitFlap();
-    }, 5000);*/
+    $(".flip").flip({
+        trigger: 'click'
+    });
+
+    /*$(document).on('click', '.flip', function (e) {
+        e.preventDefault();
+
+        $(this).flip('toggle')
+    })*/
 
 }.apply(this, [jQuery]));
