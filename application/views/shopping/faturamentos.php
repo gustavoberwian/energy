@@ -155,7 +155,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="row">
                                 <div class="col-md-6">
                                     <input type="text" class="form-control vcompetencia" id="tar-competencia" name="tar-competencia" value="" placeholder="__/____" required tabIndex="1">
-                                    
                                 </div>
                             </div>
                         </div>

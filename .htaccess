@@ -1,5 +1,5 @@
-AddHandler php74-script .php
-suPHP_ConfigPath /home/vexobotics/public_html/easymeterio
+#AddHandler php74-script .php
+#suPHP_ConfigPath /home/vexobotics/public_html/easymeterio
 
 RewriteEngine On
 RewriteBase /
