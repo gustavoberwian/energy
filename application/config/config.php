@@ -24,8 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = 'http://site/';
-$config['base_url'] = 'http://localhost:8090/';
-//$config['base_url'] = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['SERVER_NAME'].'/';
+//$config['base_url'] = 'http://localhost:8090/';
+$config['base_url'] = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['SERVER_NAME'].'/';
 
 /*
 |--------------------------------------------------------------------------
