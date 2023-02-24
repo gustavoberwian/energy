@@ -9,15 +9,6 @@
     var end_last;
     var device = 0;
 
-    var notifyError = function (msg, title = "Ocorreu um erro", visibility = true) {
-        new PNotify({
-            title: title,
-            text: msg,
-            type: "error",
-            buttons: { sticker: false },
-        });
-    };
-
     function apexchart(start = moment().subtract(6, 'days'), end = moment()) {
 
         $(".chart-main").each(function() {
