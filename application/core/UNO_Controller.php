@@ -194,3 +194,36 @@ class Api_Controller extends UNO_Controller
         $this->load->view('api/template/footer', $data);
     }
 }
+
+class SSE_Controller extends UNO_Controller
+{
+    protected $user;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->model('energy_model');
+        $this->load->model('shopping_model');
+
+        if ($this->ion_auth->logged_in() !== TRUE) {
+            redirect("auth/login");
+        }
+
+        $this->user->group    = $this->shopping_model->get_user_group($this->user->id);
+        $this->user->config   = $this->energy_model->GetClientConfig($this->user->group);
+    }
+
+    protected function render($view, $data = NULL)
+    {
+        $data['class']        = $this->router->fetch_class();
+        $data['method']       = $this->router->fetch_method();
+        $data['user']         = $this->user;
+
+        $data['logs']   = $this->db->get('esm_user_logs')->num_rows();
+
+        $this->load->view('sse/template/header', $data);
+        $this->load->view('sse/' . $view, $data);
+        $this->load->view('sse/template/footer', $data);
+    }
+}
