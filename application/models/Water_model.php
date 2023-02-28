@@ -23,7 +23,12 @@ class Water_model extends CI_Model
 
         } else if ($device == "T") {
 
-        } else {
+        } else if ($device == "ALL") {
+
+            $dvc = "LEFT JOIN esm_medidores ON esm_medidores.id = esm_leituras_ancar_agua.medidor_id
+                    LEFT JOIN esm_unidades_config ON esm_unidades_config.unidade_id = esm_medidores.unidade_id";
+
+        }  else {
 
             $dvc1 = "JOIN esm_medidores ON esm_medidores.nome = '$device'";
             $dvc = "AND medidor_id = esm_medidores.id";

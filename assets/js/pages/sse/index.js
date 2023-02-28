@@ -82,13 +82,16 @@
     evtSource.addEventListener('timestamp', timestampListener, false);
 
     $(".flip").flip({
-        trigger: 'click'
+        trigger: 'manual'
     });
 
-    /*$(document).on('click', '.flip', function (e) {
-        e.preventDefault();
-
-        $(this).flip('toggle')
-    })*/
+    setInterval( function () {
+        $(".flip").each(function(i){
+            let el = $(this);
+            setTimeout(function () {
+                el.flip('toggle');
+            }, 100 * i);
+        });
+    }, 5000 );
 
 }.apply(this, [jQuery]));

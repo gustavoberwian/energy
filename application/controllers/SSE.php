@@ -16,8 +16,15 @@ class SSE extends SSE_Controller
     public function index()
     {
         $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
+        $un = $this->sse_model->get_unidades(113, 'agua');
+        /*for ($i = 0; $i < 2; $i++) {
+            foreach ($un as $u) {
+                $data['unidades'][] = $u;
+            }
+        }*/
+        $data['max'] = 20;
         $data['alertas'] = $this->sse_model->get_alertas(113, 'agua');
-        // echo "<pre>"; print_r($this->user); echo "</pre>"; return;
+        //echo "<pre>"; print_r($data); echo "</pre>"; return;
         $this->render('index', $data);
     }
 
