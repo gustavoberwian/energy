@@ -39,11 +39,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <div class="row">
                                         <div class="col-md">
                                             <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 last-unidade"></h5>
-                                            <h6 class="font-weight-normal text-dark mb-0 mt-0">Último envio</h6>
+                                            <div class="sse font-weight-normal mb-0 mt-0" style="line-height: 18px">Último envio</div>
                                         </div>
                                         <div class="col-md">
                                             <h5 class="font-weight-semibold text-dark text-uppercase mb-0 mt-0 total-unidade"></h5>
-                                            <h6 class="font-weight-normal text-dark mb-0 mt-0">Total Desde às 0h</h6>
+                                            <div class="sse font-weight-normal mb-0 mt-0" style="line-height: 18px">Total Desde às 0h</div>
                                         </div>
                                     </div>
                                 </div>
