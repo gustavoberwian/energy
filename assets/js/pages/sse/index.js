@@ -74,7 +74,7 @@
             evtSource.addEventListener('chart', chartListener, false);
             evtSource.addEventListener('timestamp', timestampListener, false);
 
-        }, 30000);
+        }, 300000);
 
     }
 
@@ -92,6 +92,6 @@
                 el.flip('toggle');
             }, 100 * i);
         });
-    }, 5000 );
+    }, 300000 );
 
 }.apply(this, [jQuery]));
