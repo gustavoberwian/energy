@@ -168,4 +168,66 @@ class SSE_Model extends CI_Model
 
         return $result->result();
     }
+
+    public function verifica_novo_alerta($last, $group_id, $monitoramento = null, $limit = false)
+    {
+        $l = "";
+        $m = "";
+
+        if (!is_null($monitoramento)) {
+            $m = " esm_alertas.monitoramento = '$monitoramento' ";
+        }
+        if ($limit) {
+            $l = " LIMIT $limit ";
+        }
+
+        $query = "
+           SELECT 
+                esm_alertas.id as id,
+                esm_alertas.tipo as status,
+                esm_alertas.titulo as titulo,
+                esm_alertas.texto as texto,
+                esm_alertas.enviada as enviada
+            FROM esm_alertas
+            JOIN esm_alertas_envios ON esm_alertas_envios.alerta_id = esm_alertas.id
+            JOIN auth_users_group ON auth_users_group.user_id = esm_alertas_envios.user_id
+            WHERE auth_users_group.group_id = $group_id AND $m
+            AND UNIX_TIMESTAMP(enviada) > $last
+	        ORDER BY enviada DESC $l
+        ";
+
+        $result = $this->db->query($query);
+
+        if ($result->num_rows() <= 0) {
+
+            return false;
+        }
+
+        return $result->result();
+    }
+
+    public function get_ultimo_alerta($group_id, $monitoramento = null)
+    {
+        $m = "";
+
+        if (!is_null($monitoramento)) {
+            $m = " AND esm_alertas.monitoramento = '$monitoramento' ";
+        }
+
+        $query = "
+           SELECT UNIX_TIMESTAMP( esm_alertas.enviada ) AS timestamp 
+            FROM esm_alertas
+            JOIN esm_alertas_envios ON esm_alertas_envios.alerta_id = esm_alertas.id
+            JOIN auth_users_group ON auth_users_group.user_id = esm_alertas_envios.user_id
+            WHERE auth_users_group.group_id = $group_id $m
+	        ORDER BY enviada DESC LIMIT 1
+        ";
+
+        $result = $this->db->query($query);
+
+        if ($result->num_rows())
+            return $result->row()->timestamp;
+
+        return false;
+    }
 }

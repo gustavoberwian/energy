@@ -15,16 +15,11 @@ class SSE extends SSE_Controller
 
     public function index()
     {
-        $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
-        $un = $this->sse_model->get_unidades(113, 'agua');
-        /*for ($i = 0; $i < 2; $i++) {
-            foreach ($un as $u) {
-                $data['unidades'][] = $u;
-            }
-        }*/
-        $data['max'] = 20;
         $data['alertas'] = $this->sse_model->get_alertas(113, 'agua');
-        //echo "<pre>"; print_r($data); echo "</pre>"; return;
+        $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
+        $data['max'] = 20;
+
+        //echo "<pre>"; print_r($alertas); echo "</pre>"; return;
         $this->render('index', $data);
     }
 
@@ -37,17 +32,60 @@ class SSE extends SSE_Controller
         while(true) {
             $leituras = $this->sse_model->verifica_nova_leitura($this->input->get('atual'));
 
+            $alertas = $this->sse_model->verifica_novo_alerta($this->input->get('last'), 113, 'agua', 6);
+
             if ($leituras) {
-                foreach ($leituras as $leitura) {
-                    $data = $this->sse_model->getActiveConsumiption($leitura->timestamp);
-                    echo "data: " . $data, "\n\n";
-                }
 
                 $chart = $this->chart('ALL', date('Y-m-d'), date('Y-m-d'), 'mainActivePositive');
 
                 echo "event: chart\n", "data: " . json_encode($chart) . "\n\n";
             }
 
+            if ($alertas) {
+
+                $data = array();
+                
+                foreach ($alertas as $i => $alerta) {
+
+                    $status = "primary";
+                    $icon = "fa-info";
+                    if ($alerta->status === 'aviso') {
+                        $status = "warning";
+                        $icon = "fa-exclamation";
+                    } elseif ($alerta->status === 'vazamento') {
+                        $status = "danger";
+                        $icon = "fa-exclamation-triangle";
+                    }
+
+                    $data[$i]['data'] = "<div class=\"row\" data-id=\"$alerta->id\">";
+                    $data[$i]['data'] .= "<div class=\"col-12\">";
+                    $data[$i]['data'] .= "<section class=\"card card-featured-left card-featured-$status  mb-3\">";
+                    $data[$i]['data'] .= "<div class=\"card-body bg-quaternary\">";
+                    $data[$i]['data'] .= "<div class=\"widget-summary\">";
+                    $data[$i]['data'] .= "<div class=\"widget-summary-col widget-summary-col-icon align-middle\">";
+                    $data[$i]['data'] .= "<div class=\"summary-icon sse status\"><i class=\"fas $icon text-$status\"></i></div>";
+                    $data[$i]['data'] .= "</div>";
+                    $data[$i]['data'] .= "<div class=\"widget-summary-col\">";
+                    $data[$i]['data'] .= "<div class=\"summary d-flex flex-column justify-content-center\">";
+                    $data[$i]['data'] .= "<span class=\"text-uppercase enviada\"> " . date("d/m/Y H:i:s", strtotime($alerta->enviada)) . "</span>";
+                    $data[$i]['data'] .= "<h4 class=\"title title-alert\"><strong class=\"amount\" style=\"font-size: 1.1rem\">$alerta->titulo</strong></h4>";
+                    $data[$i]['data'] .= "<div class=\"info text-alert\">$alerta->texto</div>";
+                    $data[$i]['data'] .= "</div></div></div></div></section></div></div>";
+
+                    if ($i == array_key_first($alertas)) {
+                        $data[$i]['last'] = strtotime($alerta->enviada);
+                    }
+
+                    $data[$i]['prepend'] = "append";
+                    if ($this->input->get('last')) {
+                        $data[$i]['prepend'] = "prepend";
+                    }
+                }
+
+                echo "event: alertas\n", "data: " . json_encode($data) . "\n\n";
+            }
+
+            echo "event: last\n", "data: " . $this->sse_model->get_ultimo_alerta(113) . "\n\n";
             echo "event: timestamp\n", "data: " . $this->sse_model->get_ultima_leitura() . "\n", "retry: " . 20000 . "\n", "\n\n";
 
             while (ob_get_level() > 0) {

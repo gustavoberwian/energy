@@ -84,45 +84,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <section class="card card-easymeter mt-0 h-100">
                 <div class="card-body">
                     <h5 class="font-weight-semibold text-dark text-uppercase mb-3 mt-0">Alertas</h5>
-                    <?php foreach ($alertas as $alerta) : ?>
-                        <?php
-                        $status = "primary";
-                        $icon = "fa-info";
-                        if ($alerta->status === 'aviso') {
-                            $status = "warning";
-                            $icon = "fa-exclamation";
-                        } elseif ($alerta->status === 'vazamento') {
-                            $status = "danger";
-                            $icon = "fa-exclamation-triangle";
-                        }
-                        ?>
-                        <div class="row">
-                            <div class="col-12">
-                                <section class="card card-featured-left card-featured-<?= $status ?> mb-3">
-                                    <div class="card-body bg-quaternary">
-                                        <div class="widget-summary">
-                                            <div class="widget-summary-col widget-summary-col-icon align-middle">
-                                                <div class="summary-icon sse">
-                                                    <i class="fas <?= $icon ?> text-<?= $status ?>"></i>
-                                                </div>
-                                            </div>
-                                            <div class="widget-summary-col">
-                                                <div class="summary d-flex flex-column justify-content-center">
-                                                    <span class="text-uppercase"><?= date("d/m/Y H:i:s", strtotime($alerta->enviada)) ?></span>
-                                                    <h4 class="title">
-                                                        <strong class="amount" style="font-size: 1.1rem"><?= $alerta->titulo ?></strong>
-                                                    </h4>
-                                                    <div class="info">
-                                                        <?= $alerta->texto ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                    <div class="body-alerts"></div>
                 </div>
             </section>
         </div>
