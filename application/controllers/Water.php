@@ -273,6 +273,7 @@ class Water extends Shopping_Controller
         $dt = $this->datatables->query("
             SELECT 
                 esm_medidores.nome AS device, 
+                esm_unidades_config.luc AS luc, 
                 esm_unidades.nome AS name, 
                 esm_unidades_config.type AS type,
                 esm_medidores.ultima_leitura AS value_read,
@@ -421,9 +422,10 @@ class Water extends Shopping_Controller
             $spreadsheet->getActiveSheet()->mergeCells('A2:H2');
 
             $spreadsheet->getActiveSheet()->setCellValue('A4', 'Medidor')->mergeCells('A4:A5');
-            $spreadsheet->getActiveSheet()->setCellValue('B4', 'Nome')->mergeCells('B4:B5');
-            $spreadsheet->getActiveSheet()->setCellValue('C4', 'Leitura')->mergeCells('C4:C5');
-            $spreadsheet->getActiveSheet()->setCellValue('D4', 'Consumo - L')->mergeCells('D4:H4');
+            $spreadsheet->getActiveSheet()->setCellValue('B4', 'LUC')->mergeCells('B4:B5');
+            $spreadsheet->getActiveSheet()->setCellValue('C4', 'Nome')->mergeCells('B4:B5');
+            $spreadsheet->getActiveSheet()->setCellValue('D4', 'Leitura')->mergeCells('C4:C5');
+            $spreadsheet->getActiveSheet()->setCellValue('E4', 'Consumo - L')->mergeCells('D4:H4');
 
             $spreadsheet->getActiveSheet()->getStyle('A1:J5')->getFont()->setBold(true);
             $spreadsheet->getActiveSheet()->getStyle('A4:H5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -433,8 +435,8 @@ class Water extends Shopping_Controller
             $spreadsheet->getActiveSheet()->fromArray($resume, NULL, 'A6');
 
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(18);
-            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
-            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
             $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
@@ -442,7 +444,7 @@ class Water extends Shopping_Controller
             $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(18);
 
             $spreadsheet->getActiveSheet()->getStyle('A6:A'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $spreadsheet->getActiveSheet()->getStyle('C6:C'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('B6:B'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $spreadsheet->getActiveSheet()->getStyle('D6:J'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
             $spreadsheet->getActiveSheet()->setCellValue('A'.(count($resume) + 7), 'Gerado em '.date("d/m/Y H:i"));
@@ -510,6 +512,7 @@ class Water extends Shopping_Controller
         $dt = $this->datatables->query("
             SELECT 
                 esm_unidades.nome,
+                esm_unidades_config.luc as luc,
                 leitura_anterior,
                 leitura_atual,
                 consumo,
@@ -522,6 +525,8 @@ class Water extends Shopping_Controller
                 esm_medidores ON esm_medidores.nome = esm_fechamentos_agua_entradas.device
             JOIN 
                 esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+            JOIN
+                esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id
             WHERE 
                 esm_fechamentos_agua_entradas.fechamento_id = $fid
                 $where
@@ -569,7 +574,7 @@ class Water extends Shopping_Controller
         $spreadsheet = new Spreadsheet();
 
 		$titulos = [
-			['Unidade', 'Leitura Anterior', 'Leitura Atual', 'Consumo - L' ]
+			['Unidade', 'LUC', 'Leitura Anterior', 'Leitura Atual', 'Consumo - L' ]
 		];
 
         $spreadsheet->getProperties()
@@ -587,16 +592,16 @@ class Water extends Shopping_Controller
 
             $spreadsheet->setActiveSheetIndex($i);
 
-            $spreadsheet->getActiveSheet()->getStyle('A1:D2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('A1:E2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $spreadsheet->getActiveSheet()->setCellValue('A1', strtoupper($fechamento->nome));
-            $spreadsheet->getActiveSheet()->mergeCells('A1:D1');
+            $spreadsheet->getActiveSheet()->mergeCells('A1:E1');
             $spreadsheet->getActiveSheet()->setCellValue('A2', 'Relatório de Consumo de Água - '.date("d/m/Y", $fechamento->inicio).' a '.date("d/m/Y", $fechamento->fim));
-            $spreadsheet->getActiveSheet()->mergeCells('A2:D2');
+            $spreadsheet->getActiveSheet()->mergeCells('A2:E2');
 
             $spreadsheet->getActiveSheet()->fromArray($titulos, NULL, 'A4');
 
-            $spreadsheet->getActiveSheet()->getStyle('A1:D4')->getFont()->setBold(true);
-            $spreadsheet->getActiveSheet()->getStyle('A4:D4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('A1:E4')->getFont()->setBold(true);
+            $spreadsheet->getActiveSheet()->getStyle('A4:E4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
 
             $linhas = $this->water_model->GetLancamentoUnidades($fechamento_id, $this->user->config, $i + 1);
@@ -607,8 +612,9 @@ class Water extends Shopping_Controller
             $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
 
-            $spreadsheet->getActiveSheet()->getStyle('B5:D'.(count($linhas) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $spreadsheet->getActiveSheet()->getStyle('B5:E'.(count($linhas) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
 
             $spreadsheet->getActiveSheet()->setCellValue('A'.(count($linhas) + 7), 'Gerado em '.date("d/m/Y H:i"));

@@ -175,6 +175,7 @@
                         <thead>
                         <tr role="row">
                             <th rowspan="2">Medidor</th>
+                            <th rowspan="2">LUC</th>
                             <th rowspan="2">Nome</th>
                             <th rowspan="2">Tipo</th>
                             <th rowspan="2">Leitura - M³</th>

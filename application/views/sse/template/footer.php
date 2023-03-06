@@ -30,6 +30,7 @@
 <script src="<?php echo base_url('vendor/jquery-validation/jquery.validation.min.js'); ?>"></script>
 <script src="<?php echo base_url('vendor/jquery-validation/jquery.validation.pt-br.js'); ?>"></script>
 <script src="<?php echo base_url('vendor/owl_carousel/own.carousel.js'); ?>"></script>
+<script src="<?php echo base_url('vendor/teste/jquery.flip.js'); ?>"></script>
 
 <!-- Specific Page Vendor -->
 <!--<script src="vendor/jquery-ui/jquery-ui.js"></script>-->
@@ -109,9 +110,6 @@
         }
     });
 </script>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="<?php echo base_url('vendor/teste/jquery.flip.js'); ?>"></script>
 
 </body>
 </html>

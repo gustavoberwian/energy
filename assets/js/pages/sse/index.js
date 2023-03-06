@@ -3,14 +3,46 @@
     "use strict";
 
     var atual = 0;
-    var evtSource = new EventSource('sse/event?atual=' + atual);
+    var last = 0;
+    var evtSource = new EventSource('sse/event?atual=' + atual + '&last=' + last);
     var chart;
+    
+    var alertListener = function (event) {
+        var json = JSON.parse(event.data);
+
+        $.each(json, function(key, value) {
+            if (key === 0) {
+                last = value.last;
+            }
+
+            if (value.prepend === 'prepend') {
+                $(".body-alerts").children().last().hide('slow', function(){ $(".body-alerts").children().last().remove(); })
+
+                setTimeout(function () {
+                    $(".body-alerts").prepend($(value.data).hide().delay(500).show('slow'));
+                    setTimeout( function () {
+                        $(".body-alerts").children().first().addClass('blink')
+                    }, 500 );
+
+                    for(let i = 900; i < 4500; i = i + 900) {
+                        setTimeout(function () { $(".blink").css('visibility', "hidden") }, i);
+                        setTimeout(function () { $(".blink").css('visibility', "visible") },i+450);
+                    }
+
+                    setTimeout( function () {
+                        $(".body-alerts").children().removeClass('blink');
+                    }, 5500);
+                }, 500);
+            } else {
+                $(".body-alerts").append(value.data);
+            }
+        });
+    }
 
     var chartListener = function (event) {
 
         $(".chart-main").each(function () {
             var el = $(this);
-
             var json = JSON.parse(event.data);
 
             json.yaxis.labels.formatter = function (value) {
@@ -63,32 +95,38 @@
 
         evtSource.removeEventListener('chart', chartListener);
         evtSource.removeEventListener('timestamp', timestampListener);
+        evtSource.removeEventListener('alertas', alertListener);
 
         evtSource.close();
         evtSource = null;
 
         setTimeout(function () {
 
-            evtSource = new EventSource('sse/event?atual=' + atual);
+            evtSource = new EventSource('sse/event?atual=' + atual + '&last=' + last);
 
             evtSource.addEventListener('chart', chartListener, false);
             evtSource.addEventListener('timestamp', timestampListener, false);
+            evtSource.addEventListener('alertas', alertListener, false);
 
-        }, 30000);
+        }, 15000);
 
     }
 
     evtSource.addEventListener('chart', chartListener, false);
     evtSource.addEventListener('timestamp', timestampListener, false);
+    evtSource.addEventListener('alertas', alertListener, false);
 
     $(".flip").flip({
-        trigger: 'click'
+        trigger: 'manual'
     });
 
-    /*$(document).on('click', '.flip', function (e) {
-        e.preventDefault();
-
-        $(this).flip('toggle')
-    })*/
+    setInterval( function () {
+        $(".flip").each(function(i){
+            let el = $(this);
+            setTimeout(function () {
+                el.flip('toggle');
+            }, 100 * i);
+        });
+    }, 30000 );
 
 }.apply(this, [jQuery]));

@@ -2399,6 +2399,7 @@ IF(reactivePositiveConsumption > ABS(reactiveNegativeConsumption), FORMAT(IFNULL
         $dt = $this->datatables->query("
             SELECT 
                 esm_medidores.nome AS device, 
+                esm_unidades_config.luc AS luc, 
                 esm_unidades.nome AS name, 
                 esm_unidades_config.type AS type,
                 esm_medidores.ultima_leitura AS value_read,
@@ -2822,6 +2823,7 @@ fora ponta:
         $dt = $this->datatables->query("
             SELECT 
                 esm_unidades.nome,
+                esm_unidades_config.luc as luc,
                 leitura_anterior,
                 leitura_atual,
                 consumo,
@@ -2837,6 +2839,8 @@ fora ponta:
                 esm_medidores ON esm_medidores.nome = esm_fechamentos_energia_entradas.device
             JOIN 
                 esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+            JOIN
+                esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id    
             WHERE 
                 esm_fechamentos_energia_entradas.fechamento_id = $fid AND
                 esm_fechamentos_energia_entradas.type = $type
@@ -2977,9 +2981,10 @@ fora ponta:
             $spreadsheet->getActiveSheet()->mergeCells('A2:I2');
 
             $spreadsheet->getActiveSheet()->setCellValue('A4', 'Unidade')->mergeCells('A4:A5');
-            $spreadsheet->getActiveSheet()->setCellValue('B4', 'Leitura')->mergeCells('B4:C4');
-            $spreadsheet->getActiveSheet()->setCellValue('D4', 'Consumo - kWh')->mergeCells('D4:F4');
-            $spreadsheet->getActiveSheet()->setCellValue('G4', 'Demanda - kW')->mergeCells('G4:I4');
+            $spreadsheet->getActiveSheet()->setCellValue('B4', 'LUC')->mergeCells('B4:B5');
+            $spreadsheet->getActiveSheet()->setCellValue('C4', 'Leitura')->mergeCells('C4:D4');
+            $spreadsheet->getActiveSheet()->setCellValue('E4', 'Consumo - kWh')->mergeCells('E4:G4');
+            $spreadsheet->getActiveSheet()->setCellValue('H4', 'Demanda - kW')->mergeCells('H4:J4');
 
             $spreadsheet->getActiveSheet()->getStyle('A1:I5')->getFont()->setBold(true);
             $spreadsheet->getActiveSheet()->getStyle('A4:I5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -3174,9 +3179,10 @@ fora ponta:
             $spreadsheet->getActiveSheet()->mergeCells('A2:J2');
 
             $spreadsheet->getActiveSheet()->setCellValue('A4', 'Medidor')->mergeCells('A4:A5');
-            $spreadsheet->getActiveSheet()->setCellValue('B4', 'Nome')->mergeCells('B4:B5');
-            $spreadsheet->getActiveSheet()->setCellValue('C4', 'Leitura')->mergeCells('C4:C5');
-            $spreadsheet->getActiveSheet()->setCellValue('D4', 'Consumo - kWh')->mergeCells('D4:J4');
+            $spreadsheet->getActiveSheet()->setCellValue('B4', 'LUC')->mergeCells('B4:B5');
+            $spreadsheet->getActiveSheet()->setCellValue('C4', 'Nome')->mergeCells('C4:C5');
+            $spreadsheet->getActiveSheet()->setCellValue('D4', 'Leitura')->mergeCells('D4:D5');
+            $spreadsheet->getActiveSheet()->setCellValue('E4', 'Consumo - kWh')->mergeCells('E4:E4');
 
             $spreadsheet->getActiveSheet()->getStyle('A1:J5')->getFont()->setBold(true);
             $spreadsheet->getActiveSheet()->getStyle('A4:J5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -3186,8 +3192,8 @@ fora ponta:
             $spreadsheet->getActiveSheet()->fromArray($resume, NULL, 'A6');
 
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(18);
-            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
-            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
             $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
@@ -3197,7 +3203,7 @@ fora ponta:
             $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(18);
 
             $spreadsheet->getActiveSheet()->getStyle('A6:A'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $spreadsheet->getActiveSheet()->getStyle('C6:C'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $spreadsheet->getActiveSheet()->getStyle('B6:B'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $spreadsheet->getActiveSheet()->getStyle('D6:J'.(count($resume) + 6))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
             $spreadsheet->getActiveSheet()->setCellValue('A'.(count($resume) + 7), 'Gerado em '.date("d/m/Y H:i"));

@@ -163,3 +163,17 @@ h1, h2, h3, h4, h5, h6 {
     padding: 15px;
     background-color: #FFF;
 }
+.summary-icon.sse {
+    margin-right: 15px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 51.2px;
+    font-size: 2rem;
+    text-align: center;
+    color: #fff;
+    border-radius: 55px;
+}
+.table-hover.table-click tbody tr {
+    cursor: pointer;
+}

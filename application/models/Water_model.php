@@ -23,7 +23,12 @@ class Water_model extends CI_Model
 
         } else if ($device == "T") {
 
-        } else {
+        } else if ($device == "ALL") {
+
+            $dvc = "LEFT JOIN esm_medidores ON esm_medidores.id = esm_leituras_ancar_agua.medidor_id
+                    LEFT JOIN esm_unidades_config ON esm_unidades_config.unidade_id = esm_medidores.unidade_id";
+
+        }  else {
 
             $dvc1 = "JOIN esm_medidores ON esm_medidores.nome = '$device'";
             $dvc = "AND medidor_id = esm_medidores.id";
@@ -101,6 +106,7 @@ class Water_model extends CI_Model
         $result = $this->db->query("
             SELECT 
                 esm_medidores.nome AS device, 
+                esm_unidades_config.luc AS luc, 
                 esm_unidades.nome AS name, 
                 LPAD(ROUND(esm_medidores.ultima_leitura, 0), 6, '0') AS value_read,
                 FORMAT(m.value, 0, 'de_DE') AS value_month,
@@ -350,11 +356,16 @@ class Water_model extends CI_Model
         $result = $this->db->query("
             SELECT
                 esm_blocos.nome,
+                esm_unidades_config.luc as luc,
                 esm_fechamentos_agua.*
             FROM 
                 esm_fechamentos_agua
             JOIN 
                 esm_blocos ON esm_blocos.id = esm_fechamentos_agua.group_id
+            JOIN 
+                esm_unidades ON esm_blocos.id = esm_unidades.bloco_id
+            JOIN
+                esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id
             WHERE
                 esm_fechamentos_agua.id = $fid
         ");
@@ -376,6 +387,7 @@ class Water_model extends CI_Model
         $result = $this->db->query("
             SELECT 
                 esm_unidades.nome,
+                esm_unidades_config.luc as luc,
                 LPAD(ROUND(leitura_anterior), 6, '0') AS leitura_anterior,
                 LPAD(ROUND(leitura_atual), 6, '0') AS leitura_atual,
                 FORMAT(consumo, 1, 'de_DE') AS consumo
@@ -385,6 +397,9 @@ class Water_model extends CI_Model
                 esm_medidores ON esm_medidores.nome = esm_fechamentos_agua_entradas.device
             JOIN 
                 esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+            JOIN
+                esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id
+            
             WHERE 
                 esm_fechamentos_agua_entradas.fechamento_id = $fid 
                 $type   

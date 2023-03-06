@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <table class="text-dark w-100">
                     <tr>
                         <td style="width:130px;">
-                            <img src="<?php echo base_url('assets/img/north.png'); ?>" height="80" alt="<?= $shopping->nome; ?>" style="margin-top: 17px;"/>
+                            <img src="<?php echo base_url('assets/img/logo-north.png'); ?>" height="80" alt="<?= $shopping->nome; ?>" style="margin-top: 17px;"/>
                         </td>
                         <td>
                             <h4 class="font-weight-bold mt-0"><?= $shopping->nome; ?></h4>
@@ -27,7 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                 </table>
 
-                <table class="relatorio w-100 mt-3">
+                <table class="relatorio w-100 mt-3 table-bordered">
                     <tbody>
                         <tr>
                             <td width="20%" class="text-dark">
@@ -65,7 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tbody>
                 </table>
 
-                <table class="relatorio bg-gray w-50 mt-3">
+                <table class="relatorio bg-gray w-50 mt-3 table-bordered">
                     <tbody>
                         <tr>
                             <td width="33%" class="text-dark">
@@ -88,7 +88,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 <div class="mt-3">
 
-                    <table class="relatorio comum w-100 mb-3">
+                    <table class="relatorio comum w-100 mb-3 table-bordered">
                         <tbody>
                             <tr>
                                 <td colspan="2" class="bg-gray">
@@ -116,7 +116,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <div>
-                    <table class="relatorio comum w-100">
+                    <table class="relatorio comum w-100 table-bordered">
                         <tbody>
                             <tr>
                                 <td class="bg-gray">
@@ -178,7 +178,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <div class="mt-3" style="page-break-inside: avoid;">
-                    <table class="relatorio comum w-100">
+                    <table class="relatorio comum w-100 table-bordered">
                         <tbody>
                             <tr>
                                 <td class="bg-gray">
@@ -195,47 +195,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </table>
                 </div>
 
-                <div class="mt-3" style="page-break-inside: avoid;">
-                    <table class="relatorio comum w-100">
-                        <tbody>
-                            <tr>
-                                <td class="bg-gray">
-                                    <p class="text-muted font-weight-bold text-uppercase text-center mb-0">O CONSUMO DA UNIDADE ESTE MÊS EQUIVALE A</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-dark text-center font-weight-semibold align-middle bg-w">
-                                    <div class="row">
-                                        <?php if ($equivalencia[0]) : ?>
-                                            <div class="col">
-                                                <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c0_'.$equivalencia[0]); ?>.png">
-                                                <p class="text-1 text-muted my-0"><?= $equivalencia[0]; ?> <?= ($equivalencia[0] == 1) ? 'CAMINHÃO' : 'CAMINHÕES'; ?> DE 10.000 L</p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if ($equivalencia[1]) : ?>
-                                            <div class="col">
-                                                <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c1_'.$equivalencia[1]); ?>.png">
-                                                <p class="text-1 text-muted my-0"><?= $equivalencia[1]; ?> PISCINAS DE 1.000 L</p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if ($equivalencia[2]) : ?>
-                                            <div class="col">
-                                                <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c2_'.$equivalencia[2]); ?>.png">
-                                                <p class="text-1 text-muted my-0"><?= $equivalencia[2]; ?> BANHEIRAS DE 100 L</p>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if ($equivalencia[3]) : ?>
-                                            <div class="col">
-                                                <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c3_'.$equivalencia[3]); ?>.png">
-                                                <p class="text-1 text-muted my-0"><?= $equivalencia[3]; ?> <?= ($equivalencia[3] == 1) ? 'GALÃO' : 'GALÕES'; ?> DE 10 L</p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <?php if (array_sum($equivalencia)) : ?>
+                    <div class="mt-3" style="page-break-inside: avoid;">
+                        <table class="relatorio comum w-100 table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td class="bg-gray">
+                                        <p class="text-muted font-weight-bold text-uppercase text-center mb-0">O CONSUMO DA UNIDADE ESTE MÊS EQUIVALE A</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark text-center font-weight-semibold align-middle bg-w">
+                                        <div class="row">
+                                            <?php if ($equivalencia[0]) : ?>
+                                                <div class="col">
+                                                    <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c0_'.$equivalencia[0]); ?>.png">
+                                                    <p class="text-1 text-muted my-0"><?= $equivalencia[0]; ?> <?= ($equivalencia[0] == 1) ? 'CAMINHÃO' : 'CAMINHÕES'; ?> DE 10.000 L</p>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($equivalencia[1]) : ?>
+                                                <div class="col">
+                                                    <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c1_'.$equivalencia[1]); ?>.png">
+                                                    <p class="text-1 text-muted my-0"><?= $equivalencia[1]; ?> PISCINAS DE 1.000 L</p>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($equivalencia[2]) : ?>
+                                                <div class="col">
+                                                    <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c2_'.$equivalencia[2]); ?>.png">
+                                                    <p class="text-1 text-muted my-0"><?= $equivalencia[2]; ?> BANHEIRAS DE 100 L</p>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($equivalencia[3]) : ?>
+                                                <div class="col">
+                                                    <img class="comp-img-fluid" src="<?= base_url( 'assets/img/c3_'.$equivalencia[3]); ?>.png">
+                                                    <p class="text-1 text-muted my-0"><?= $equivalencia[3]; ?> <?= ($equivalencia[3] == 1) ? 'GALÃO' : 'GALÕES'; ?> DE 10 L</p>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
 
                 <div class="mt-3">
                     <table class="text-dark w-100">

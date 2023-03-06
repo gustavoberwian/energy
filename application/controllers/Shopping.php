@@ -443,6 +443,7 @@ class Shopping extends Shopping_Controller
         $query = "SELECT 
                 un.id as id,
                 un.nome as unidade,
+                unc.luc as luc,
                 IF(unc.type <= 1,(SELECT esm_client_config.area_comum FROM esm_client_config WHERE esm_client_config.group_id = ".$this->input->post("group")."),'Unidades') as subtipo,
                 unc.tipo as tipo,
                 unc.identificador as identificador,
@@ -462,6 +463,10 @@ class Shopping extends Shopping_Controller
                 return "";
             else
                 return $data['disjuntor']." A";
+        });
+
+        $dt->add('luc', function ($data) {
+            return $data['luc'];
         });
 
         $dt->add('subtipo', function ($data) {
@@ -1055,7 +1060,8 @@ class Shopping extends Shopping_Controller
         for ($i = 0; $i < count($this->input->post()); $i++) {
             $el = $this->input->post($i);
             if ($this->input->post($i)) {
-                if ($i == 0) {
+                echo $i . ' - ';
+                /*if ($i == 0) {
                     $dados['unidade_id'] = $el;
                 } elseif ($i == 1) {
                     $dados['tabela']['esm_unidades']['nome'] = $el;
@@ -1069,9 +1075,11 @@ class Shopping extends Shopping_Controller
                     $dados['tabela']['esm_unidades_config']['disjuntor'] = $el;
                 } elseif ($i == 6) {
                     $dados['tabela']['esm_unidades_config']['faturamento'] = $el;
-                }
+                }*/
             }
         }
+
+        return;
 
         $this->setHistory("Usuario ".$dados['unidade_id']." editada", 'ação');
 

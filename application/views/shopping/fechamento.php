@@ -101,6 +101,7 @@
                                     <thead>
                                         <tr role="row">
                                             <th rowspan="2">Unidade</th>
+                                            <th rowspan="2" class="text-center">LUC</th>
                                             <th colspan="2" class="text-center">Leitura</th>
                                             <th colspan="3" class="text-center">Consumo - kWh</th>
                                             <th colspan="3" class="text-center">Demanda - kW</th>
@@ -125,6 +126,7 @@
                                     <thead>
                                         <tr role="row">
                                             <th rowspan="2">Unidade</th>
+                                            <th rowspan="2" class="text-center">LUC</th>
                                             <th colspan="2" class="text-center">Leitura</th>
                                             <th colspan="3" class="text-center">Consumo - kWh</th>
                                             <th colspan="3" class="text-center">Demanda - kW</th>
