@@ -1075,9 +1075,11 @@ class Shopping extends Shopping_Controller
                     $dados['tabela']['esm_unidades_config']['disjuntor'] = $el;
                 } elseif ($i == 6) {
                     $dados['tabela']['esm_unidades_config']['faturamento'] = $el;
-                }
+                }*/
             }
         }
+
+        return;
 
         $this->setHistory("Usuario ".$dados['unidade_id']." editada", 'ação');
 
