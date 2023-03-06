@@ -387,7 +387,9 @@
                         data['id'] = $(this).children('input').val();
                     } else if (i === 1) {
                         data['group_id'] = $(this).children('input').val();
-                    } else {
+                    } else if (i === 2) {
+                        data['luc'] = $(this).children('input').val();
+                    }else {
                         if ($(this).hasClass('switch-dt')) {
                             if ($(this).children().children('input').prop('checked')) {
                                 data[$(this).children().children('input').attr('name')] = 1;
@@ -500,6 +502,7 @@
         [
             {class: "d-none"},
             {class: "dt-body-left align-middle"},
+            {class: "dt-body-center align-middle"},
             {class: "dt-body-center align-middle select subtipo"},
             {class: "dt-body-center align-middle select tipo"},
             {class: "dt-body-center align-middle"},
@@ -524,8 +527,10 @@
         [
             {class: "d-none"},
             {class: "dt-body-left align-middle"},
+            {class: "dt-body-center align-middle"},
             {class: "dt-body-center align-middle select subtipo"},
             {class: "dt-body-center align-middle select tipo"},
+            {class: "dt-body-center align-middle"},
             {class: "dt-body-center align-middle"},
             {class: "dt-body-center align-middle"},
             {class: "d-none"},

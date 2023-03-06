@@ -65,7 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </a>
                             </li>-->
 
-                            <li class="<?php if (in_array($method, array('faturamentos')) || in_array($method, array('fechamento')) || in_array($method, array('relatorio'))) echo 'nav-active'; ?>">
+                            <li class="<?php if (in_array($method, array('faturamentos', 'fechamento', 'relatorio', 'lancamento')) || in_array($method, array('fechamento')) || in_array($method, array('relatorio'))) echo 'nav-active'; ?>">
                                 <a class="nav-link" href="<?= site_url('shopping/faturamentos/' . $group_id); ?>">
                                     <i class="fas fa-file-invoice"></i>
                                     <span>Lançamentos</span>

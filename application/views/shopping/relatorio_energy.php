@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <table class="text-dark w-100">
                     <tr>
                         <td style="width:130px;">
-                            <img src="<?php echo base_url('assets/img/north.png'); ?>" height="80" alt="<?= $shopping->nome; ?>" style="margin-top: 17px;"/>
+                            <img src="<?php echo base_url('assets/img/logo-north.png'); ?>" height="80" alt="<?= $shopping->nome; ?>" style="margin-top: 17px;"/>
                         </td>
                         <td>
                             <h4 class="font-weight-bold mt-0"><?= $shopping->nome; ?></h4>
@@ -27,7 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                 </table>
 
-                <table class="relatorio w-100 mt-3">
+                <table class="relatorio w-100 mt-3 table-bordered">
                     <tbody>
                         <tr>
                             <td width="20%" class="text-dark">
@@ -65,7 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tbody>
                 </table>
 
-                <table class="relatorio bg-gray w-50 mt-3">
+                <table class="relatorio bg-gray w-50 mt-3 table-bordered">
                     <tbody>
                         <tr>
                             <td width="33%" class="text-dark">
@@ -87,7 +87,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </table>
 
                 <div class="mt-3">
-                    <table class="relatorio comum w-100 mb-3">
+                    <table class="relatorio comum w-100 mb-3 table-bordered">
                         <tbody>
                             <tr>
                                 <td colspan="2" class="bg-gray">
@@ -139,7 +139,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <div>
-                    <table class="relatorio comum w-100">
+                    <table class="relatorio comum w-100 table-bordered">
                         <tbody>
                             <tr>
                                 <td class="bg-gray">
@@ -205,7 +205,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <div class="mt-3" style="page-break-inside: avoid;">
-                    <table class="relatorio comum w-100">
+                    <table class="relatorio comum w-100 table-bordered">
                         <tbody>
                             <tr>
                                 <td class="bg-gray">

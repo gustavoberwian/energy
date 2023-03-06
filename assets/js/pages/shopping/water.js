@@ -185,6 +185,7 @@
         paging: true,
         columns: [
             {data: "device", className: "dt-body-center"},
+            {data: "luc", className: "dt-body-center"},
             {data: "name", className: "dt-body-left"},
             {data: "type", className: "dt-body-center"},
             {data: "value_read", className: "dt-body-center"},

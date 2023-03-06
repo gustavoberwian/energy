@@ -17,7 +17,13 @@ class SSE extends SSE_Controller
     {
         $data['alertas'] = $this->sse_model->get_alertas(113, 'agua');
         $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
-        $data['max'] = 20;
+        for ($i = 0; $i < 2; $i++) {
+            $unidades = $this->sse_model->get_unidades(113, 'agua');
+            foreach ($unidades as $u) {
+                $data['unidades'][] = $u;
+            }
+        }
+        $data['max'] = 30;
 
         //echo "<pre>"; print_r($alertas); echo "</pre>"; return;
         $this->render('index', $data);
@@ -105,7 +111,7 @@ class SSE extends SSE_Controller
         $config = array(
             "chart" => array(
                 "type" => $type,
-                "height" => '315',
+                "height" => '280',
                 "foreColor" => "#ccc",
                 "stacked"   => $stacked,
                 "toolbar"  => array(

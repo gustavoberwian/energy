@@ -24,11 +24,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <section role="main" class="content-body p-4">
 
     <div class="row h-100 align-content-between">
-        <div class="col-md-8 d-flex h-100 flex-column justify-content-between">
+        <div class="col-md-9 d-flex h-100 flex-column justify-content-between">
             <div class="row pb-0">
                 <?php foreach ($unidades as $i => $unidade) : ?>
                     <?php if ($i == $max): break; endif; ?>
-                    <div class="flip" style="width: 20%">
+                    <div class="flip col-md-2">
                         <div class="front pe-4">
                             <section class="card card-easymeter mt-0 pb-4 card-unidade" data-unidade="<?= $unidade->unidade_id ?>">
                                 <div class="card-body">
@@ -80,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
             </section>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <section class="card card-easymeter mt-0 h-100">
                 <div class="card-body">
                     <h5 class="font-weight-semibold text-dark text-uppercase mb-3 mt-0">Alertas</h5>

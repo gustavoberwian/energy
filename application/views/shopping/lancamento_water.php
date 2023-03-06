@@ -65,11 +65,13 @@
                             <table class="table table-bordered table-striped table-hover table-click" id="dt-unidades" data-url="<?php echo site_url('water/GetLancamentoUnidades'); ?>">
                                 <thead>
                                     <tr role="row">
-                                        <th rowspan="2">Medidor</th>
+                                        <th colspan="2" class="text-center">Medidor</th>
                                         <th colspan="2" class="text-center">Leitura</th>
                                         <th colspan="3" class="text-center">Consumo - L</th>
                                     </tr>
                                     <tr role="row">
+                                        <th>Nome</th>
+                                        <th>LUC</th>
                                         <th>Anterior</th>
                                         <th>Atual</th>
                                         <th>Total</th>

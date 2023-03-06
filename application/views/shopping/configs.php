@@ -123,6 +123,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <tr role="row">
                                                     <th class="d-none">id</th>
                                                     <th class="text-center">Medidor</th>
+                                                    <th class="text-center">LUC</th>
                                                     <th class="text-center">Subtipo</th>
                                                     <th class="text-center">Tipo</th>
                                                     <th class="text-center">Identificador</th>
@@ -237,6 +238,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <tr role="row">
                                                     <th class="d-none">id</th>
                                                     <th class="text-center">Medidor</th>
+                                                    <th class="text-center">LUC</th>
                                                     <th class="text-center">Subtipo</th>
                                                     <th class="text-center">Tipo</th>
                                                     <th class="text-center">Identificador</th>

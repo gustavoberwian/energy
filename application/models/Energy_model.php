@@ -1211,6 +1211,7 @@ class Energy_model extends CI_Model
         $result = $this->db->query("
             SELECT 
                 esm_unidades.nome,
+                esm_unidades_config.luc as luc,
                 LPAD(ROUND(leitura_anterior), 6, '0') AS leitura_anterior,
                 LPAD(ROUND(leitura_atual), 6, '0') AS leitura_atual,
                 FORMAT(consumo, 3, 'de_DE') AS consumo,
@@ -1225,6 +1226,8 @@ class Energy_model extends CI_Model
                 esm_medidores ON esm_medidores.nome = esm_fechamentos_energia_entradas.device
             JOIN 
                 esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
+            JOIN
+                esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id
             WHERE 
                 esm_fechamentos_energia_entradas.fechamento_id = $fid 
                 $type   
@@ -1556,6 +1559,7 @@ class Energy_model extends CI_Model
         $result = $this->db->query("
             SELECT 
                 esm_medidores.nome AS device, 
+                esm_unidades_config.luc AS luc, 
                 esm_unidades.nome AS name, 
                 LPAD(ROUND(esm_medidores.ultima_leitura, 0), 6, '0') AS value_read,
                 FORMAT(m.value, 3, 'de_DE') AS value_month,
