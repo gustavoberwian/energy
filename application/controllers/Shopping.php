@@ -1057,29 +1057,33 @@ class Shopping extends Shopping_Controller
 
     public function edit_unidade()
     {
-        for ($i = 0; $i < count($this->input->post()); $i++) {
-            $el = $this->input->post($i);
-            if ($this->input->post($i)) {
-                echo $i . ' - ';
-                /*if ($i == 0) {
-                    $dados['unidade_id'] = $el;
-                } elseif ($i == 1) {
-                    $dados['tabela']['esm_unidades']['nome'] = $el;
-                } elseif ($i == 2) {
-                    $dados['tabela']['esm_unidades_config']['tipo'] = $el;
-                } elseif ($i == 3) {
-                    $dados['tabela']['esm_unidades_config']['identificador'] = $el;
-                } elseif ($i == 4) {
-                    $dados['tabela']['esm_unidades_config']['localizador'] = $el;
-                } elseif ($i == 5) {
-                    $dados['tabela']['esm_unidades_config']['disjuntor'] = $el;
-                } elseif ($i == 6) {
-                    $dados['tabela']['esm_unidades_config']['faturamento'] = $el;
-                }*/
-            }
-        }
+        $dados = array();
 
-        return;
+        foreach ($this->input->post() as $index => $post) {
+
+            if ($index === "id") {
+                $dados['unidade_id'] = $post;
+            } elseif ($index === "entrada_id") {
+                $dados['tipo'] = $post;
+            } elseif ($index === "group_id") {
+                $dados['tabela']['esm_unidades']['nome'] = $post;
+            } elseif ($index === "luc") {
+                $dados['tabela']['esm_unidades_config']['luc'] = $post;
+            } elseif ($index === "subtipo") {
+                $dados['tabela']['esm_unidades_config']['type'] = $post;
+            } elseif ($index === "tipo") {
+                $dados['tabela']['esm_unidades_config']['tipo'] = $post;
+            } elseif ($index === "identificador") {
+                $dados['tabela']['esm_unidades_config']['identificador'] = $post;
+            } elseif ($index === "localizador") {
+                $dados['tabela']['esm_unidades_config']['localizador'] = $post;
+            } elseif ($index === "capacidade") {
+                $dados['tabela']['esm_unidades_config']['disjuntor'] = intval($post);
+            } elseif ($index === "faturamento") {
+                $dados['tabela']['esm_unidades_config']['faturamento'] = $post;
+            }
+
+        }
 
         $this->setHistory("Usuario ".$dados['unidade_id']." editada", 'ação');
 
@@ -1122,8 +1126,8 @@ class Shopping extends Shopping_Controller
     {
         $dados = array();
 
-        if ($this->input->post('id')) {
-            $dados['config_id'] = $this->input->post('id');
+        if ($this->input->post('config_id')) {
+            $dados['config_id'] = $this->input->post('config_id');
         }
         if ($this->input->post('group_id')) {
             $dados['group_id'] = $this->input->post('group_id');
@@ -1199,8 +1203,8 @@ class Shopping extends Shopping_Controller
     {
         $dados = array();
 
-        if ($this->input->post("undefined")) {
-            $dados['name'] = $this->input->post("undefined");
+        if ($this->input->post("group_name")) {
+            $dados['name'] = $this->input->post("group_name");
         }
         foreach ($this->input->post("select_unidades") as $m) {
             $dados['devices'][] = $m;

@@ -155,7 +155,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </header>
                                 <div class="card-body bordered">
                                     <div class="tab-form agrupamentos h-100">
-                                        <div class="table-responsive h-100">
+                                        <div class="table-responsive h-100" style="min-height: 230px;">
                                             <table class="table table-bordered table-striped dataTable table-hover table-click no-footer"
                                                    id="dt-agrupamentos-energia" data-url="/shopping/get_agrupamentos" data-tipo="energia">
                                                 <thead>
@@ -243,7 +243,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                     <th class="text-center">Tipo</th>
                                                     <th class="text-center">Identificador</th>
                                                     <th class="text-center">Localizador</th>
-                                                    <th class="d-none"></th>
+                                                    <th class="text-center d-none">Capacidade</th>
                                                     <th class="text-center">Lançamentos</th>
                                                     <th class="text-center">Ações</th>
                                                 </tr>
