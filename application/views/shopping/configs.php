@@ -357,7 +357,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             <input onClick="this.select();"  id="token" value="<?= $token ?>" name="token" type="text" class="form-control" placeholder="" aria-describedby="button-addon2">
                                             <button class="btn btn-primary btn-generate-token <?= $token ? 'renew' : '' ?>" type="button-addon2"><?= $token ? 'Renovar Chave' : 'Gerar Chave' ?></button>
                                         </div>
-                                        <a href="/shopping/api/<?= $group_id ?>" class="text-right" target="_blank">Documentação <i class="fas fa-arrow-up-right-from-square"></i></a>
+                                        <a href="/api/doc" class="text-right" target="_blank">Documentação <i class="fas fa-arrow-up-right-from-square"></i></a>
                                     </div>
                                 </div>
                             </div>
