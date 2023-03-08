@@ -427,14 +427,14 @@
             enableClickableOptGroups: false,
             enableCollapsibleOptGroups: false,
             collapseOptGroupsByDefault: false,
-            filterPlaceholder: 'Search',
+            filterPlaceholder: 'Pesquisar',
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
             includeFilterClearBtn: true,
             preventInputChangeEvent: false,
-            nonSelectedText: 'None selected',
-            nSelectedText: 'selected',
-            allSelectedText: 'All selected',
+            nonSelectedText: 'Nenhum selecionado',
+            nSelectedText: 'selecionados',
+            allSelectedText: 'Todos selecionados',
             numberDisplayed: 3,
             disableIfEmpty: false,
             disabledText: '',
@@ -444,7 +444,7 @@
             resetText: 'Reset',
             indentGroupOptions: true,
             // possible options: 'never', 'always', 'ifPopupIsSmaller', 'ifPopupIsWider'
-            widthSynchronizationMode: 'never',
+            widthSynchronizationMode: 'nunca',
             buttonTextAlignment: 'center',
             templates: {
                 button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',

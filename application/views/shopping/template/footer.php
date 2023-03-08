@@ -25,7 +25,7 @@
 <!--        <script src="<?php echo base_url('vendor/datatables/datatables.min.js'); ?>"></script> -->
         <script src="<?php echo base_url('vendor/datatables/examples.datatables.editable.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/ios7-switch/ios7-switch.js'); ?>"></script>
-		<script src="<?php echo base_url('vendor/bootstrap-multiselect/js/bootstrap-multiselect.js'); ?>"></script>
+		<script src="<?php echo base_url('vendor/bootstrapv5-multiselect/js/bootstrap-multiselect.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/jquery-mask-plugin/jquery.mask.min.js'); ?>"></script>
 <!--        <script src="<?php echo base_url('vendor/jquery-maskedinput/jquery.maskedinput.js'); ?>"></script>-->
 

@@ -177,3 +177,38 @@ h1, h2, h3, h4, h5, h6 {
 .table-hover.table-click tbody tr {
     cursor: pointer;
 }
+.comp-img-fluid {
+    max-width: 100%;
+    height: 160px;
+}
+.workingAnimation span {
+    display: inline-block;
+    background-color: #ccc;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin-right: 7px;
+
+    animation-name: blink;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+.workingAnimation span:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.workingAnimation span:nth-child(3) {
+    animation-delay: 0.2s;
+}
+@keyframes blink {
+    0% {
+        background-color: rgba(195, 205, 213, 0.2);
+    }
+    20% {
+        background-color: rgba(90, 178, 239, 1);
+        transform: scale(1.2);
+    }
+    100% {
+        background-color: rgba(195, 205, 213, 0.2);
+    }
+}
