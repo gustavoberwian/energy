@@ -62,8 +62,3 @@ var notifyAlert = function(msg) {
         buttons: {sticker: false}
     });
 };
-setTimeout(function () {
-    $(".dataTables_filter").children().contents().filter(function(){
-        return (this.nodeType == 3);
-    }).remove()
-}, 4000);
