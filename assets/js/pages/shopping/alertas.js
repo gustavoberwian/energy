@@ -7,7 +7,7 @@
         processing: true,
         columns: [
             {data: "type", className: "dt-body-center", orderable: false},
-            {data: "tipo", className: "dt-body-center filter", orderable: false},
+            {data: "tipo", className: "dt-body-center", orderable: false},
             {data: "device", className: "dt-body-center filter"},
             {data: "nome", className: "filter" },
             {data: "titulo"},
