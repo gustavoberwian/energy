@@ -74,7 +74,7 @@
                     pageLength: 10,
                     order: _self.$order,
                     pagingType: "numbers",
-                    language: { search: '' },
+                    oLanguage: { sSearch: "" },
                     ajax: {
                         type: 'POST',
                         url: _self.$table.data("url"),
