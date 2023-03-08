@@ -212,3 +212,7 @@ h1, h2, h3, h4, h5, h6 {
         background-color: rgba(195, 205, 213, 0.2);
     }
 }
+.unread {
+    background-color: #ebebeb !important;
+    font-weight: bold !important;
+}
