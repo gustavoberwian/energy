@@ -835,4 +835,78 @@
             });
     });
 
+    $(document).on('click', '.btn-generate-token', function (e) {
+        // para propagação
+        e.preventDefault();
+        var user = $(this).data('id')
+        // abre a modal
+        $.magnificPopup.open({
+            items: {src: '#modalGenerateKey'}, type: 'inline',
+            callbacks: {
+                beforeOpen: function () {
+                    $('#modalGenerateKey .id').val(user);
+                    $('#modalGenerateKey .id').data('uid', user);
+                }
+            }
+        });
+    });
+
+    // **
+    // * Handler Fechar Modal Confirmação Exclusão
+    // **
+    $(document).on('click', '.modal-dismiss', function (e) {
+        // para propagação
+        e.preventDefault();
+
+        // limpa id e data
+        $('#modalGenerateKey .id').val('').data('user', null);
+
+        // fecha a modal
+        $.magnificPopup.close();
+    });
+
+    // **
+    // * Handler Botão Excluir Modal Confirmação Exclusão
+    // **
+    $(document).on('click', '#modalGenerateKey .modal-confirm-key', function () {
+        // mostra indicador
+        var $btn = $(this);
+        $btn.trigger('loading-overlay:show');
+        // desabilita botões
+        var $btn_d = $('.btn:enabled').prop('disabled', true);
+        // pega o valor do id
+        var cid = $('#modalGenerateKey .id').val();
+        var uid = $('#modalGenerateKey .id').data('uid');
+        // faz a requisição
+        $.post("/shopping/generateToken", { group_id: $(".page-header").data("group") }, function (json) {
+            if (json.status == 'success') {
+                // fecha modal
+                $.magnificPopup.close();
+                // atualiza chave
+                $("#token").val(json.token);
+                // mostra notificação
+                notifySuccess(json.message);
+            } else {
+                // fecha modal
+                $.magnificPopup.close();
+                // mostra erro
+                notifyError(json.message);
+            }
+        }, 'json')
+            .fail(function (xhr, status, error) {
+                // fecha modal
+                $.magnificPopup.close();
+                // mostra erro
+                notifyError(error, 'Ajax Error');
+            })
+            .always(function () {
+                // oculta indicador e habilita botão
+                $btn.trigger('loading-overlay:hide');
+                // habilita botões
+                $btn_d.prop('disabled', false);
+                // limpa id
+                $('#modalGenerateKey .id').val('').data('uid', null);
+            });
+    });
+
 }.apply(this, [jQuery]));
