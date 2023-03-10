@@ -95,7 +95,7 @@
                                 <a class="nav-link" data-bs-target="#unidades" href="#unidades" data-bs-toggle="tab">Unidades</a>
                             </li>
                         </ul>
-                        <div class="tab-content">
+                        <div class="tab-content card-body">
                             <div id="comum" class="tab-pane active">
                                 <table class="table table-bordered table-striped table-hover table-click" id="dt-fechamento_comum" data-url="<?php echo site_url('energia/GetFechamentoUnidades/1'); ?>">
                                     <thead>
