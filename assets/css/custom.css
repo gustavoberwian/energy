@@ -249,3 +249,7 @@ button.nav-link.configs {
     background: #007bff !important;
     color: #FFF !important;
 }
+.tab-content.card-body {
+    background-color: #fdfdfd;
+    padding: 15px;
+}
