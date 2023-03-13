@@ -194,16 +194,17 @@
         }
 
         if (this.value == "C" || this.value == "U") {
-            $('button[data-bs-target="#data"]').addClass("d-none");
-            $('button[data-bs-target="#analysis"]').addClass("d-none");
+            $('button[data-bs-target="#data"]').addClass("disabled");
+            $('button[data-bs-target="#analysis"]').addClass("disabled");
             if ($('button[data-bs-toggle="pill"].active').html() == "Análises" || $('button[data-bs-toggle="pill"].active').html() == "Dados") {
                 setTimeout(function() {
-                    $('.nav-pills button[data-bs-target="#charts"]').tab('show');
+                    $('button[data-bs-target="#data"]').removeClass("disabled");
+                    $('button[data-bs-target="#analysis"]').removeClass("disabled");
                 }, 100);
             }
         } else {
-            $('button[data-bs-target="#data"]').removeClass("d-none");
-            $('button[data-bs-target="#analysis"]').removeClass("d-none");
+            $('button[data-bs-target="#data"]').removeClass("disabled");
+            $('button[data-bs-target="#analysis"]').removeClass("disabled");
         }
 
         apexchart(start_last, end_last);
@@ -431,7 +432,8 @@
         let data = dtResume.row(this).data();
         $("#sel-device option[value=" + data.device + "]").attr('selected', 'selected');
         $('#sel-device').trigger('change');
-        $('.nav-pills button[data-bs-target="#charts"]').tab('show');
+        $('button[data-bs-target="#data"]').removeClass("disabled");
+        $('button[data-bs-target="#analysis"]').removeClass("disabled");
     });
 
     $(document).on("click", ".btn-download-abnormal", function () {
