@@ -327,7 +327,7 @@
 
                                     // CSS para uma tabela específica (gambiarra) !!!NAO APAGAR!!!
                                     // Essa alteração é desfeita nas funções rowCancel, rowSave e deleteRow
-                                    $("#dt-agrupamentos-energia").parent().css('min-height', '220px');
+                                    $("#dt-agrupamentos-energia").parent().css('min-height', '400px');
                                 },
                                 error: function (xhr, status, error) {
                                 },
