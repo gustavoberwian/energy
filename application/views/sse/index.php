@@ -100,8 +100,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
         <div class="col-md-3">
             <section class="card card-easymeter mt-0 h-100">
-                <div class="card-body">
+                <div class="card-header" style="background: #2e353e; border: none;">
+                    <div class="card-actions">
+                        <a href="/auth/logout"><i class="fas fa-right-from-bracket"></i></a>
+                    </div>
                     <h5 class="font-weight-semibold text-dark text-uppercase mb-3 mt-0">Alertas</h5>
+                </div>
+                <div class="card-body">
                     <div class="body-alerts">
                         <?php if (empty($alertas)) : ?>
                             <p class="text-center">Nenhum alerta encontrado</p>
