@@ -38,8 +38,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="ui-pnotify-icon ps-4">
                                 <span class="fas fa-times"></span>
                             </div>
-                            <h4 class="ui-pnotify-title">Central fora do ar! O último envio foi feito em: <?= date('d/m/Y H:i', $ultimo_envio); ?></h4>
-                            <div class="ui-pnotify-text">Dados referentes as 24 horas anteriores ao último envio</div>
+                            <h4 class="ui-pnotify-title">Dados atualzados até <?= date('d/m/Y H:i', $ultimo_envio); ?>.</h4>
+                            <div class="ui-pnotify-text">A equipe de suporte já está trabalhando para resolver o problema.</div>
                             <div style="margin-top: 5px; clear: both; text-align: right; display: none;"></div>
                         </div>
                     </div>
