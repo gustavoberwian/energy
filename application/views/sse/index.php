@@ -36,7 +36,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <span class="fas fa-pause" title="Stick"></span>
                             </div>
                             <div class="ui-pnotify-icon ps-4">
-                                <span class="fas fa-times"></span>
+                                <span class="fas fa-exclamation-triangle border-0"></span>
                             </div>
                             <h4 class="ui-pnotify-title">Dados atualzados até <?= date('d/m/Y H:i', $ultimo_envio); ?>.</h4>
                             <div class="ui-pnotify-text">A equipe de suporte já está trabalhando para resolver o problema.</div>
