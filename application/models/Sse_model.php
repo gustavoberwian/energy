@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class SSE_Model extends CI_Model
+class Ssemodel extends CI_Model
 {
     public function get_ultima_leitura()
     {

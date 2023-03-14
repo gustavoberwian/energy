@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class SSE extends SSE_Controller
+class Sse extends SSE_Controller
 {
     public int $ultimaLeitura = 0;
 
