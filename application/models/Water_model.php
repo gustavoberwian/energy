@@ -3,7 +3,7 @@
 class Water_model extends CI_Model
 {
 
-    public function GetConsumption($device, $start, $end, $st = array(), $group = true)
+    public function GetConsumption($device, $start, $end, $st = array(), $group = true, $interval = null)
     {
         $dvc  = "";
         $dvc1 = "";
@@ -44,7 +44,29 @@ class Water_model extends CI_Model
             }
         }
 
-        if ($start == $end) {
+        if ($interval === 'h') {
+            $group_by = "";
+            if ($group)
+                $group_by = "GROUP BY esm_hours.num";
+
+            $result = $this->db->query("
+                SELECT 
+                    CONCAT(LPAD(esm_hours.num, 2, '0'), ':00') AS label, 
+                    CONCAT(LPAD(IF(esm_hours.num + 1 > 23, 0, esm_hours.num + 1), 2, '0'), ':00') AS next,
+                    SUM(consumo) AS value
+                FROM esm_hours
+                $dvc1
+                JOIN esm_leituras_ancar_agua ON 
+                    HOUR(FROM_UNIXTIME(timestamp - 3600)) = esm_hours.num AND 
+                    timestamp > $start AND 
+                    timestamp <= $end + 600
+                    $station
+                    $dvc
+                $group_by
+                ORDER BY esm_hours.num
+            ");
+
+        } elseif ($start == $end) {
 
             $group_by = "";
             if ($group)
