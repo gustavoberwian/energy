@@ -75,6 +75,8 @@ class SSE_Model extends CI_Model
                 esm_unidades.id AS unidade_id,
                 esm_medidores.id as medidor_id,
                 esm_unidades.nome AS unidade_nome,
+                esm_medidores.ultima_leitura AS ultima_leitura,
+                esm_medidores.ultimo_consumo AS ultimo_consumo,
             CONCAT(
                     esm_shoppings.logradouro,
                     ', ',
@@ -86,15 +88,13 @@ class SSE_Model extends CI_Model
                     ' - ',
                     esm_shoppings.uf 
                 ) as endereco,
-                (	SELECT timestamp
-                    FROM esm_leituras_ancar_agua 
-                    WHERE medidor_id = esm_medidores.id 
-                        ORDER BY timestamp DESC LIMIT 1) as ultimo_envio
+                esm_condominios_centrais.ultimo_envio as ultimo_envio
             FROM
                 esm_unidades
                 JOIN esm_blocos ON esm_blocos.id = esm_unidades.bloco_id
                 JOIN esm_shoppings ON esm_shoppings.bloco_id = esm_blocos.id
                 JOIN esm_medidores ON esm_unidades.id = esm_medidores.unidade_id
+                JOIN esm_condominios_centrais ON esm_condominios_centrais.nome = esm_medidores.central
             WHERE
                 esm_unidades.bloco_id = $group_id
                 $m

@@ -17,15 +17,21 @@ class SSE extends SSE_Controller
     {
         $data['alertas'] = $this->sse_model->get_alertas(113, 'agua');
         $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
-        for ($i = 0; $i < 2; $i++) {
-            $unidades = $this->sse_model->get_unidades(113, 'agua');
-            foreach ($unidades as $u) {
-                $data['unidades'][] = $u;
+        $ultimo_envio = 0;
+        foreach ($data['unidades'] as $un) {
+            if ($un->ultimo_envio > $ultimo_envio) {
+                $ultimo_envio = $un->ultimo_envio;
             }
         }
+
+        $data['ultimo_envio'] = $ultimo_envio;
+        $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
+
         $data['max'] = 30;
 
+        //$chart = $this->chart('ALL', strtotime('-1 day', $ultimo_envio), $ultimo_envio, 'mainActivePositive', 'h');
         //echo "<pre>"; print_r($alertas); echo "</pre>"; return;
+        //echo "<pre>"; print_r($chart); echo "</pre>"; return;
         $this->render('index', $data);
     }
 
@@ -41,8 +47,15 @@ class SSE extends SSE_Controller
             $alertas = $this->sse_model->verifica_novo_alerta($this->input->get('last'), 113, 'agua', 6);
 
             if ($leituras) {
+                $data['unidades'] = $this->sse_model->get_unidades(113, 'agua');
+                $ultimo_envio = 0;
+                foreach ($data['unidades'] as $un) {
+                    if ($un->ultimo_envio > $ultimo_envio) {
+                        $ultimo_envio = $un->ultimo_envio;
+                    }
+                }
 
-                $chart = $this->chart('ALL', date('Y-m-d'), date('Y-m-d'), 'mainActivePositive');
+                $chart = $this->chart('ALL', strtotime('-1 day', $ultimo_envio), $ultimo_envio, 'mainActivePositive', 'h');
 
                 echo "event: chart\n", "data: " . json_encode($chart) . "\n\n";
             }
@@ -208,17 +221,17 @@ class SSE extends SSE_Controller
         return $html;
     }
 
-    public function chart($device, $start, $end, $field)
+    public function chart($device, $start, $end, $field, $interval = null)
     {
         $divisor  = 1;
         $decimals = 0;
         $unidade  = "";
         $type     = "line";
 
-        $period   = $this->water_model->GetConsumption($device, $start, $end);
+        $period   = $this->water_model->GetConsumption($device, $start, $end, array(), true, 'h');
 
-        $period_o = $this->water_model->GetConsumption($device, $start, $end, array("opened", $this->user->config->open, $this->user->config->close), false)[0]->value;
-        $period_c = $this->water_model->GetConsumption($device, $start, $end, array("closed", $this->user->config->open, $this->user->config->close), false)[0]->value;
+        $period_o = $this->water_model->GetConsumption($device, $start, $end, array("opened", $this->user->config->open, $this->user->config->close), false, 'h')[0]->value;
+        $period_c = $this->water_model->GetConsumption($device, $start, $end, array("closed", $this->user->config->open, $this->user->config->close), false, 'h')[0]->value;
         $main     = $this->water_model->GetDeviceLastRead($device);
         $month_o  = $this->water_model->GetConsumption($device, date("Y-m-01"), date("Y-m-d"), array("opened", $this->user->config->open, $this->user->config->close), false)[0]->value;
         $month_c  = $this->water_model->GetConsumption($device, date("Y-m-01"), date("Y-m-d"), array("closed", $this->user->config->open, $this->user->config->close), false)[0]->value;
@@ -241,7 +254,7 @@ class SSE extends SSE_Controller
                 $values[] = $v->value;
                 $labels[] = $v->label;
 
-                if ($start == $end) {
+                if ($start == $end || $interval === 'h') {
                     $titles[] = $v->label." - ".$v->next;
                 } else {
                     $titles[] = $v->label." - ".weekDayName($v->dw);
@@ -306,15 +319,16 @@ class SSE extends SSE_Controller
             $response['last'][$unidade->unidade_id] = array();
             $response['status'][$unidade->unidade_id] = array();
 
-            foreach ($units[$unidade->unidade_id] as $i => $hour)
-            {
-                if (array_key_last($units[$unidade->unidade_id]) == $i) {
-                    $response['last'][$unidade->unidade_id] = intval($hour->consumo);
+            if ($units[$unidade->unidade_id]) {
+                foreach ($units[$unidade->unidade_id] as $i => $hour) {
+                    if (array_key_last($units[$unidade->unidade_id]) == $i) {
+                        $response['last'][$unidade->unidade_id] = intval($hour->consumo);
+                    }
+
+                    $response['total'][$unidade->unidade_id] += $hour->consumo;
+
+                    $response['status'][$unidade->unidade_id] = format_online_status($unidade->ultimo_envio);
                 }
-
-                $response['total'][$unidade->unidade_id] += $hour->consumo;
-
-                $response['status'][$unidade->unidade_id] = format_online_status($unidade->ultimo_envio);
             }
         }
 
