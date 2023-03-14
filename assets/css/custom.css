@@ -253,3 +253,6 @@ button.nav-link.configs {
     background-color: #fdfdfd;
     padding: 15px;
 }
+.fa-right-from-bracket:before, .fa-sign-out-alt:before {
+    content: "\f2f5";
+}
