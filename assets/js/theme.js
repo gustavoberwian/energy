@@ -485,9 +485,9 @@ window.theme.fn = {
 	if ( $.isFunction( $.fn[ 'dataTable' ] ) ) {
 
 		$.extend(true, $.fn.dataTable.defaults, {
-            language: {
+            /*language: {
                 url: '/vendor/datatables/pt-BR.json'
-            },
+            },*/
 /*			oLanguage: {
 				sLengthMenu: '_MENU_ registros por página',
 				sProcessing: '<i class="fas fa-spinner fa-spin"></i> Carregando...',

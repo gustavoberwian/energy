@@ -23,6 +23,7 @@
         -->
 
 		<!-- Vendor CSS -->
+        <link rel="stylesheet" href="<?= base_url('vendor/datatables/media/css/dataTables.bootstrap5.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url("vendor/bootstrap/css/bootstrap.css"); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url("vendor/animate/animate.compat.css"); ?>">
 		<link rel="stylesheet" href="<?php echo base_url("vendor/font-awesome/css/all.min.css"); ?>" />
@@ -35,7 +36,7 @@
 <!--		<link rel="stylesheet" href="<?php echo base_url("vendor/morris/morris.css"); ?>" /> -->
         <link rel="stylesheet" href="<?php echo base_url("vendor/daterangepicker/daterangepicker.css"); ?>">
         <!--<link rel="stylesheet" href="<?php echo base_url('vendor/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.css'); ?>" /> -->
-        <link rel="stylesheet" href="<?= base_url('vendor/datatables/media/css/dataTables.bootstrap5.css'); ?>" />
+
         <link rel="stylesheet" href="<?php echo base_url('vendor/apexcharts/dist/apexcharts.css'); ?>" />
         <link rel="stylesheet" href="<?php echo base_url('vendor/pnotify/pnotify.custom.css'); ?>" />
 		<link rel="stylesheet" href="<?php echo base_url('vendor/bootstrap-multiselect/css/bootstrap-multiselect.css'); ?>" />

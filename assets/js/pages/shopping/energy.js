@@ -2,6 +2,43 @@
 
     'use strict';
 
+    let dtResume = $("#dt-resume").DataTable({
+        dom: '<"table-responsive"t>r<"row"<"col-md-6"><"col-md-6"p>>',
+        processing : true,
+        paging     : true,
+        columns    : [
+            {data: "device", className: "dt-body-center"},
+            {data: "luc", className: "dt-body-center"},
+            {data: "name", className: "dt-body-left"},
+            {data: "type", className: "dt-body-center"},
+            {data: "value_read", className: "dt-body-center"},
+            {data: "value_month", className: "dt-body-center"},
+            {data: "value_month_open", className: "dt-body-center"},
+            {data: "value_month_closed", className: "dt-body-center"},
+            {data: "value_ponta", className: "dt-body-center"},
+            {data: "value_fora", className: "dt-body-center"},
+            {data: "value_last", className: "dt-body-center"},
+            {data: "value_future", className: "dt-body-center"},
+        ],
+        serverSide : true,
+        sorting    : [],
+        order      : [[ 2, "asc" ], [ 1, "asc" ]],
+        pagingType : "numbers",
+        pageLength : 36,
+        searching  : true,
+        ajax       : {
+            type: 'POST',
+            url: "/energia/resume",
+            error: function () {
+                notifyError(
+                    "Ocorreu um erro no servidor. Por favor tente novamente em alguns instantes."
+                );
+                $("#dt-resume").dataTable().fnProcessingIndicator(false);
+                $("#dt-resume_wrapper .table-responsive").removeClass("processing");
+            },
+        },
+    });
+
     var start = moment().subtract(6, 'days');
     var end = moment();
     var chart = {};
@@ -327,43 +364,6 @@
                 notifyError("Ocorreu um erro no servidor. Por favor tente novamente em alguns instantes.");
                 $("#dt-data").dataTable().fnProcessingIndicator(false);
                 $("#dt-data_wrapper .table-responsive").removeClass("processing");
-            },
-        },
-    });
-
-    let dtResume = $("#dt-resume").DataTable({
-        dom: '<"table-responsive"t>r<"row"<"col-md-6"><"col-md-6"p>>',
-        processing: true,
-        paging: true,
-        columns: [
-            {data: "device", className: "dt-body-center"},
-            {data: "luc", className: "dt-body-center"},
-            {data: "name", className: "dt-body-left"},
-            {data: "type", className: "dt-body-center"},
-            {data: "value_read", className: "dt-body-center"},
-            {data: "value_month", className: "dt-body-center"},
-            {data: "value_month_open", className: "dt-body-center"},
-            {data: "value_month_closed", className: "dt-body-center"},
-            {data: "value_ponta", className: "dt-body-center"},
-            {data: "value_fora", className: "dt-body-center"},
-            {data: "value_last", className: "dt-body-center"},
-            {data: "value_future", className: "dt-body-center"},
-        ],
-        serverSide: true,
-        sorting: [],
-        order: [[ 2, "asc" ], [ 1, "asc" ]],
-        pagingType: "numbers",
-        pageLength: 36,
-        searching: true,
-        ajax: {
-            type: 'POST',
-            url: "/energia/resume",
-            error: function () {
-                notifyError(
-                    "Ocorreu um erro no servidor. Por favor tente novamente em alguns instantes."
-                );
-                $("#dt-resume").dataTable().fnProcessingIndicator(false);
-                $("#dt-resume_wrapper .table-responsive").removeClass("processing");
             },
         },
     });

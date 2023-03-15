@@ -53,7 +53,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="nav-utility color-primary border-0 d-flex flex-row-reverse justify-content-sm-center justify-content-md-center justify-content-lg-start justify-content-xl-start">
                 <div class="module right">
                     <?php if ($this->ion_auth->is_admin()) : ?>
-                        <a class="link_nav" href="<?php echo site_url('admin'); ?>">
+                        <a class="link_nav" href="<?php echo site_url($this->ion_auth->user()->row()->start_page); ?>">
                             <i class="ti-user">&nbsp;</i>
                             <span class="sub bold">Voltar</span>
                         </a>

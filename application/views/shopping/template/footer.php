@@ -7,6 +7,8 @@
         <!-- Vendor -->
 		<script src="<?php echo base_url('vendor/jquery/jquery.js'); ?>"></script>
 		<script src="<?php echo base_url('vendor/jquery-browser-mobile/jquery.browser.mobile.js'); ?>"></script>
+        <script src="<?= base_url('vendor/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
+        <script src="<?= base_url('vendor/datatables/media/js/dataTables.bootstrap5.min.js'); ?>"></script>
 		<script src="<?php echo base_url('vendor/popper/umd/popper.min.js'); ?>"></script>
 		<script src="<?php echo base_url('vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 		<script src="<?php echo base_url('vendor/bootstrap-datepicker/js/bootstrap-datepicker.js'); ?>"></script>
@@ -19,11 +21,9 @@
         <script src="<?php echo base_url('vendor/daterangepicker/daterangepicker.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/apexcharts/dist/apexcharts.js'); ?>"></script>
 
-        <script src="<?= base_url('vendor/datatables/media/js/jquery.dataTables.min.js'); ?>"></script>
-        <script src="<?= base_url('vendor/datatables/media/js/dataTables.bootstrap5.min.js'); ?>"></script>
 
-<!--        <script src="<?php echo base_url('vendor/datatables/datatables.min.js'); ?>"></script> -->
-        <script src="<?php echo base_url('vendor/datatables/examples.datatables.editable.js'); ?>"></script>
+        <!--<script src="<?php /*echo base_url('vendor/datatables/DataTables-1.10.18/js/jquery.dataTables.min.js'); */?>"></script>
+        <script src="<?php /*echo base_url('vendor/datatables/examples.datatables.editable.js'); */?>"></script>-->
         <script src="<?php echo base_url('vendor/ios7-switch/ios7-switch.js'); ?>"></script>
 		<script src="<?php echo base_url('vendor/bootstrapv5-multiselect/js/bootstrap-multiselect.js'); ?>"></script>
         <script src="<?php echo base_url('vendor/jquery-mask-plugin/jquery.mask.min.js'); ?>"></script>
