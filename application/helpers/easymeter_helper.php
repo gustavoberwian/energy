@@ -1,13 +1,13 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * CodeIgniter Easymeter Helpers
  */
 
 
- function group2page($auth)
- {
+function group2page($auth)
+{
     if ($auth->in_group(array('admin', 'shopping'))) {
         return 'shopping';
     } elseif ($auth->in_group('admin')) {
@@ -25,10 +25,10 @@ function avatar($avatar)
 
         return base_url('assets/img/user.png');
 
-    } elseif  (file_exists('uploads/avatars/'.$avatar)) {
-    
+    } elseif (file_exists('uploads/avatars/' . $avatar)) {
+
         return base_url('uploads/avatars/' . $avatar);
-    
+
     } else {
 
         // verificar qdo mostra
@@ -64,7 +64,7 @@ function MonthName($month)
     return $names[intval($month)];
 }
 
-function alerta_tipo2icon($tipo, $class='')
+function alerta_tipo2icon($tipo, $class = '')
 {
     if ($tipo == 1)
         return '<span class="badge badge-info"> Informativo </span>';
@@ -85,26 +85,27 @@ function alerta_tipo2color($tipo)
     }
 }
 
-function time_ago($date) {
-    $timestamp = strtotime($date);	
-	   
+function time_ago($date)
+{
+    $timestamp = strtotime($date);
+
     $strTime = array("segundo", "minuto", "hora", "dia", "mês", "ano");
     $strPlural = array("segundos", "minutos", "horas", "dias", "meses", "anos");
     $strUnidade = array("um", "um", "uma", "um", "um", "um");
-	$length = array("60","60","24","30","12","10");
+    $length = array("60", "60", "24", "30", "12", "10");
 
-	$currentTime = time();
-	if($currentTime >= $timestamp) {
-        $diff     = time()- $timestamp;
-        
+    $currentTime = time();
+    if ($currentTime >= $timestamp) {
+        $diff = time() - $timestamp;
+
         if ($diff > 172800) return date('d/m/Y', $timestamp);       // 2 dias: só data
         if ($diff > 86400) return date('d/m/Y h:i', $timestamp);    // 1 dia: data e hora
 
-		for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
-			$diff = $diff / $length[$i];
-		}
+        for ($i = 0; $diff >= $length[$i] && $i < count($length) - 1; $i++) {
+            $diff = $diff / $length[$i];
+        }
 
-		$diff = round($diff);
+        $diff = round($diff);
 
         if ($diff == 1)
             $time_ago = $strUnidade[$i] . " " . $strTime[$i] . " atrás ";
@@ -116,36 +117,35 @@ function time_ago($date) {
         $time_ago = str_replace('0 segundo atrás', 'agora mesmo', $time_ago);
 
         return $time_ago;
-	}    
+    }
 }
-
 
 
 function user_groups_nice($id, $ion_auth)
 {
-    if($ion_auth->in_group(array('industria'), $id, true))
+    if ($ion_auth->in_group(array('industria'), $id, true))
         return 'Indústria';
-    if($ion_auth->in_group(array('sindicos', 'unidades'), $id, true))
+    if ($ion_auth->in_group(array('sindicos', 'unidades'), $id, true))
         return 'Morador e Síndico';
-    if($ion_auth->in_group(array('sindicos', 'proprietarios'), $id, true))
+    if ($ion_auth->in_group(array('sindicos', 'proprietarios'), $id, true))
         return 'Proprietário e Síndico';
-    if($ion_auth->in_group('sindicos', $id))
+    if ($ion_auth->in_group('sindicos', $id))
         return 'Síndico';
-    if($ion_auth->in_group('proprietarios', $id))
+    if ($ion_auth->in_group('proprietarios', $id))
         return 'Proprietário';
-    if($ion_auth->in_group('unidades', $id))
+    if ($ion_auth->in_group('unidades', $id))
         return 'Morador';
-    if($ion_auth->in_group('admin', $id))
+    if ($ion_auth->in_group('admin', $id))
         return 'Administrador';
-    if($ion_auth->in_group('zelador', $id))
+    if ($ion_auth->in_group('zelador', $id))
         return 'Zelador';
-    if($ion_auth->in_group('monitoramento', $id))
+    if ($ion_auth->in_group('monitoramento', $id))
         return 'Monitoramento';
-    if($ion_auth->in_group('administradora', $id))
+    if ($ion_auth->in_group('administradora', $id))
         return 'Administradora';
-    if($ion_auth->in_group('representante', $id))
+    if ($ion_auth->in_group('representante', $id))
         return 'Representante';
-    if($ion_auth->in_group('trc', $id))
+    if ($ion_auth->in_group('trc', $id))
         return 'NeoWater';
 
     return 'Usuário';
@@ -155,7 +155,7 @@ function competencia_nice($competencia, $sep = '/')
 {
     $c = explode('/', $competencia);
     $meses = array('', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro');
-    return $meses[intval($c[0])].$sep.$c[1];
+    return $meses[intval($c[0])] . $sep . $c[1];
 }
 
 function set_historico($user_id, $description)
@@ -165,7 +165,8 @@ function set_historico($user_id, $description)
     //$CI->db->insert('esm_user_logs', array('user_id' => $user_id, 'descricao' => $description));
 }
 
-function checkDateFormat($date){
+function checkDateFormat($date)
+{
     $d = explode('-', $date);
 
     return checkdate($d[1] ?? 0, $d[2] ?? 0, $d[0] ?? 0);

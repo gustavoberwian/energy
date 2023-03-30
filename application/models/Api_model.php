@@ -1128,7 +1128,7 @@ class Api_model extends CI_Model {
                         esm_calendar.dt
                 ) today
                 JOIN (
-                    SELECT AVG(l.value) AS value
+                    SELECT IFNULL(ROUND(AVG(l.value), 3), 0) AS value
                     FROM (
                         SELECT 
                             SUM(activePositiveConsumption) AS value

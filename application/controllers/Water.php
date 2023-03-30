@@ -286,14 +286,14 @@ class Water extends Shopping_Controller
             FROM esm_medidores
             JOIN esm_unidades ON esm_unidades.id = esm_medidores.unidade_id
             JOIN esm_unidades_config ON esm_unidades_config.unidade_id = esm_unidades.id
-            JOIN (  
+            LEFT JOIN (  
                 SELECT esm_medidores.nome AS device, SUM(consumo) AS value
                 FROM esm_leituras_ancar_agua
                 JOIN esm_medidores ON esm_medidores.id = esm_leituras_ancar_agua.medidor_id
                 WHERE timestamp > UNIX_TIMESTAMP() - 86400
                 GROUP BY medidor_id
             ) l ON l.device = esm_medidores.nome
-            JOIN (
+            LEFT JOIN (
                 SELECT esm_medidores.nome as device, SUM(consumo) AS value
                 FROM esm_calendar
                 LEFT JOIN esm_leituras_ancar_agua d ON 
@@ -305,14 +305,14 @@ class Water extends Shopping_Controller
                     esm_calendar.dt <= DATE_FORMAT(CURDATE() ,'%Y-%m-%d') 
                 GROUP BY d.medidor_id
             ) m ON m.device = esm_medidores.nome
-            JOIN (
+            LEFT JOIN (
                 SELECT esm_medidores.nome AS device, SUM(consumo) AS value
                 FROM esm_leituras_ancar_agua
                 JOIN esm_medidores ON esm_medidores.id = esm_leituras_ancar_agua.medidor_id
                 WHERE MONTH(FROM_UNIXTIME(timestamp)) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(FROM_UNIXTIME(timestamp)) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
                 GROUP BY medidor_id
             ) c ON c.device = esm_medidores.nome
-            JOIN (
+            LEFT JOIN (
                 SELECT esm_medidores.nome AS device, SUM(consumo) AS value
                 FROM esm_leituras_ancar_agua
                 JOIN esm_medidores ON esm_medidores.id = esm_leituras_ancar_agua.medidor_id
